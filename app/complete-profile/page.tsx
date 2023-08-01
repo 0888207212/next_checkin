@@ -3,6 +3,7 @@
 import { CompleteProfile } from "@/interfaces/profile";
 import { useRouter } from "next/navigation";
 import apiCompleteProfile from "@/api/complete-profile";
+import { showToastMessage } from "@/utils/helper";
 
 import FormCompleteProfile from "@/components/FormCompleteProfile/FormCompleteProfile";
 
@@ -13,7 +14,7 @@ const CompleteProfile = () => {
     try {
       const response = await apiCompleteProfile.updateProfile(data);
       if (response.status === 200) {
-        alert("Complete profile success");
+        showToastMessage("Complete profile success", "success");
         router.push("/checkin");
       }
     } catch (err) {

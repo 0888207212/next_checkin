@@ -4,7 +4,7 @@ type TypeToast = "success" | "info" | "error" | "warning" | "default";
 
 export const showToastMessage = (message: string, typeToast: TypeToast) => {
   toast(message, {
-    position: "top-center",
+    position: "top-right",
     type: typeToast,
     autoClose: 5000,
     hideProgressBar: false,

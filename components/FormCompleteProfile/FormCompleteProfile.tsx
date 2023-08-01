@@ -6,6 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import apiCompleteProfile from "@/api/complete-profile";
 import { Department, Departments } from "@/interfaces/profile";
+import Loading from "@/components/loading/index";
 
 interface FormData {
   code: number;
@@ -22,8 +23,11 @@ interface PropsSubmit {
 }
 
 export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
-  const [department, setDepartment] = useState<Departments>();
-  const optionDepartment: ValueDepartment[] = [];
+  const [optionDepartment, setOptionDepartment] = useState<ValueDepartment[]>(
+    []
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
   const schema = yup
     .object({
       code: yup.number().min(4).positive().integer().required(),
@@ -35,40 +39,44 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
   });
+
+  useEffect(() => {
+    getDepartment();
+    setValue("department_id", 1);
+  }, []);
 
   const onSubmit = (data: FormData) => {
     handleForm(data);
   };
 
   const getDepartment = async () => {
-    const departments = await apiCompleteProfile
-      .getDepartMent()
-      .then((res) => {
-        return res.data;
-      })
-      .catch((err) => console.log(err));
-    setDepartment(departments);
+    try {
+      setIsLoading(true);
+      const departments = await apiCompleteProfile.getDepartMent();
+      if (departments) {
+        optionSelect(departments?.data?.departments);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
-  useEffect(() => {
-    getDepartment();
-  }, [getDepartment.length]);
-
-  const optionSelect = () => {
-    department &&
-      Array.isArray(department.departments) &&
-      department.departments.map((value: Department) => {
-        optionDepartment.push({
-          value: value.id,
-          label: value.name,
-        });
-      });
+  const optionSelect = (departments: any) => {
+    const result = departments.map((value: Department) => {
+      return {
+        value: value.id,
+        label: value.name,
+      };
+    });
+    setOptionDepartment(result);
   };
-  optionSelect();
 
   return (
     <div>
@@ -97,13 +105,14 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
             {...register("department_id")}
             className="outline-none p-2 border mt-2"
           >
-            {optionDepartment.map((value, index) => {
-              return (
-                <option value={value.value} key={index}>
-                  {value.label}
-                </option>
-              );
-            })}
+            {Array.isArray(optionDepartment) &&
+              optionDepartment.map((value, index) => {
+                return (
+                  <option value={value?.value} key={index}>
+                    {value?.label}
+                  </option>
+                );
+              })}
           </select>
           {errors.department_id && (
             <span className="text-[red]">{errors.department_id?.message}</span>
@@ -128,6 +137,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
           className="p-2 border text-[white] bg-[#66a166] hover:bg-[green] cursor-pointer"
         />
       </form>
+      {isLoading && <Loading />}
     </div>
   );
 }

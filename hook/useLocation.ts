@@ -1,13 +1,11 @@
 'use client'
 
-import { useState, useEffect, SetStateAction } from "react";
-import apiLocation from '@/api/geo-location'
-import { GetAllLocation } from '@/interfaces/location'
+import { useState, useEffect } from "react";
+import { showToastMessage } from "@/utils/helper/index";
 
 export const useLocation = () => {
   const [lat, setLat] = useState(null)
   const [lng, setLng] = useState(null)
-  const [location, setLocation] = useState<GetAllLocation>()
 
   const onSuccess = (location: any) => {
     setLat(location.coords.latitude)
@@ -16,21 +14,7 @@ export const useLocation = () => {
 
   const onError = (error: { code: number, message: string }) => {
     console.log('err', error)
-  }
-
-  const getLocation = async () => {
-    const coordinates = {
-      lat: lat,
-      lng: lng
-    };
-    await apiLocation.getLocation(coordinates)
-      .then((res) => {
-        setLocation(res.data)
-        return res.data
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    showToastMessage('Bạn phải bật location để có thể checkin', 'info')
   }
 
   useEffect(() => {
@@ -41,11 +25,7 @@ export const useLocation = () => {
       })
     }
     navigator.geolocation.getCurrentPosition(onSuccess, onError)
-
-    if (lat && lng) {
-      getLocation()
-    }
   }, [lat, lng])
 
-  return { ...location }
+  return { lat, lng }
 }
