@@ -5,12 +5,9 @@ import { useRouter } from "next/navigation";
 import apiCompleteProfile from "@/api/complete-profile";
 
 import FormCompleteProfile from "@/components/FormCompleteProfile/FormCompleteProfile";
-import { useAppSelector } from "@/redux/store";
 
 const CompleteProfile = () => {
-  const user = useAppSelector((state) => state.authReducer.value);
   const router = useRouter();
-  console.log(12345, user);
 
   const completeProfile = async (data: CompleteProfile) => {
     try {

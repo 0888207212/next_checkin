@@ -9,6 +9,7 @@ import { setCookie } from "cookies-next";
 import { AppDispatch } from "@/redux/store";
 import { logIn } from "@/redux/features/auth-slice";
 import apiAuth from "@/api/auth";
+import { showToastMessage } from "@/utils/helper";
 
 const LoginUserPage = () => {
   const router = useRouter();
@@ -22,6 +23,7 @@ const LoginUserPage = () => {
       };
       const response = await apiAuth.login(payload);
       if (response.status === 200) {
+        showToastMessage("Đăng nhập thành công", "success");
         setCookie("access_token", response.data.token, {
           maxAge: 60 * 60 * 24 * 10,
         });
@@ -33,6 +35,7 @@ const LoginUserPage = () => {
         return router.push("/");
       }
     } catch (error) {
+      showToastMessage("Đăng nhập thất bại", "error");
       console.log("error", error);
     }
   };
