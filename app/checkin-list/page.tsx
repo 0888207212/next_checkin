@@ -31,7 +31,7 @@ const CheckinList = () => {
 
   return (
     <>
-      <div className="container mx-auto flex justify-end items-center gap-2 my-4">
+      <div className="container mx-auto flex justify-end items-center gap-2 md:my-4 w-[90%] max-md:my-10">
         <label htmlFor="">Lọc theo tháng: </label>
         <input
           type="month"
