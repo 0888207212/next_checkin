@@ -9,6 +9,10 @@ const apiAttendences = {
     const url = "/user/checkins";
     return axiosInstance.get(url, { params });
   },
+  exportExcel(params) {
+    const url = "/export";
+    return axiosInstance.get(url, { params, responseType: "blob" });
+  },
 };
 
 export default apiAttendences;

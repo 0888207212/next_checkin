@@ -1,0 +1,36 @@
+.pagination a {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  font-size: 0.8rem;
+  margin: 0 0.3rem;
+  border-radius: 0.5rem;
+  padding: 0 0.5rem;
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.pagination__link {
+  font-weight: bold;
+}
+
+.pagination__link--active a {
+  color: #fff;
+  background-color: #fe4f18;
+}
+
+.pagination__link--disabled a {
+  color: rgb(198, 197, 202);
+  border: 1px solid rgb(198, 197, 202);
+  cursor: not-allowed;
+}
+
+@media (min-width: 640px) {
+  .pagination a {
+    width: 40px;
+    height: 40px;
+    margin: 0 0.5rem;
+  }
+}

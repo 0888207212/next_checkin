@@ -1,8 +1,14 @@
 import dayjs from "dayjs";
 import { User } from "@/interfaces/user";
+import Pagination from "./Pagination";
+import Loading from "../loading";
 
 interface Props {
   attendances: AttendancesUser<User>[];
+  isLoading: boolean;
+  totalPage: number;
+  currentPage: number;
+  changeCurrentPage: (currentPage: number) => void;
 }
 
 interface AttendancesUser<T> {
@@ -21,7 +27,8 @@ interface AttendancesUser<T> {
 }
 
 const TableAttendances = (props: Props) => {
-  const { attendances } = props;
+  const { attendances, isLoading, totalPage, currentPage, changeCurrentPage } =
+    props;
 
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
@@ -30,79 +37,111 @@ const TableAttendances = (props: Props) => {
   };
 
   return (
-    <div className="w-[90%] mx-auto mb-10 relative min-h-[600px] max-h-[600px] overflow-auto shadow-md sm:rounded-lg">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" className="px-6 py-3">
-              Ngày
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Tên nhân viên
-            </th>
-            <th scope="col" className="px-6 py-3">
-              ID nhân viên
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Giờ vào
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Địa điểm vào
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Giờ ra
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Địa điểm ra
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Tổng giờ làm việc
-            </th>
-            <th scope="col" className="px-6 py-3">
-              Trạng thái
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {attendances.length > 0
-            ? attendances.map((item) => (
+    <div>
+      <div className="w-[90%] mx-auto mb-10 relative min-h-[600px] max-h-[600px] overflow-auto shadow-md sm:rounded-lg">
+        <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Ngày
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Tên nhân viên
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[120px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                ID nhân viên
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Giờ vào
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Địa điểm vào
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Giờ ra
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Địa điểm ra
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Tổng giờ làm
+              </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Trạng thái
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading && <Loading />}
+            {attendances.length > 0 ? (
+              attendances.map((item) => (
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   key={item.id}
                 >
-                  <td className="px-6 py-4">
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {convertDateTime(item.check_in_time, "DD/MM/YYYY")}
                   </td>
-                  <td className="px-6 py-4">{item.user?.full_name}</td>
-                  <td className="px-6 py-4">{item.user?.code}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {item.user?.full_name}
+                  </td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {item.user?.code}
+                  </td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {convertDateTime(item.check_in_time, "")}
                   </td>
-                  <td className="px-6 py-4">{item.check_in_location}</td>
-                  <td className="px-6 py-4">
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {item.check_in_location}
+                  </td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {convertDateTime(item.check_out_time, "")}
                   </td>
-                  <td className="px-6 py-4">{item.check_out_location}</td>
-                  <td className="px-6 py-4">{item.working_time}</td>
-                  <td className="flex items-center px-6 py-4 space-x-3">
-                    {/* <a
-                      href="#"
-                      className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                    >
-                      Edit
-                    </a>
-                    <a
-                      href="#"
-                      className="font-medium text-red-600 dark:text-red-500 hover:underline"
-                    >
-                      Remove
-                    </a> */}
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {item.check_out_location}
                   </td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {item.working_time}
+                  </td>
+                  <td className="flex items-center px-3 py-2 sm:px-6 sm:py-4 space-x-3"></td>
                 </tr>
               ))
-            : "Không có dữ liệu nào"}
-        </tbody>
-      </table>
+            ) : (
+              <div className="absolute top-1/2 left-1/2">
+                Không có dữ liệu nào
+              </div>
+            )}
+          </tbody>
+        </table>
+      </div>
+      <Pagination totalPage={totalPage} changeCurrentPage={changeCurrentPage} />
     </div>
   );
 };
