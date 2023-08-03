@@ -5,6 +5,7 @@ import { ReduxProvider } from "@/redux/provider";
 import { AuthLayout } from "@/components/layout/Auth";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "leaflet/dist/leaflet.css";
 
 export const metadata: Metadata = {
   title: "CheckinGPS",
