@@ -13,6 +13,7 @@ import apiLocation from "@/api/geo-location";
 import Loading from "@/components/loading/index";
 import Map from "@/components/map/map";
 import bg from "@/public/map.png";
+import { useRouter } from "next/navigation";
 
 const Checkin = () => {
   const { lat, lng } = useLocation();
@@ -83,7 +84,7 @@ const Checkin = () => {
   };
 
   return (
-    <div className="h-full sm:h-[calc(100vh-276px)] py-12 dark:bg-gray-800 flex items-center">
+    <div className="h-full sm:h-[calc(100vh-231px)] py-12 dark:bg-gray-800 flex items-center">
       <div className="container mx-auto flex flex-row max-sm:flex-col justify-between items-start">
         <div className="w-full mb-3 sm:w-1/2 sm: mr-4">
           <Map
