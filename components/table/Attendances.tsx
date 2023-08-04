@@ -28,6 +28,7 @@ interface AttendancesUser<T> {
   user: T;
   user_id: number;
   working_time?: string;
+  cv_working_time: string;
 }
 
 const TableAttendances = (props: Props) => {
@@ -112,12 +113,12 @@ const TableAttendances = (props: Props) => {
               >
                 Tổng giờ làm
               </th>
-              <th
+              {/* <th
                 scope="col"
                 className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
               >
                 Trạng thái
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -150,9 +151,9 @@ const TableAttendances = (props: Props) => {
                     {item.check_out_location}
                   </td>
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
-                    {item.working_time}
+                    {item.cv_working_time}
                   </td>
-                  <td className="flex items-center px-3 py-2 sm:px-6 sm:py-4 space-x-3"></td>
+                  {/* <td className="flex items-center px-3 py-2 sm:px-6 sm:py-4 space-x-3"></td> */}
                 </tr>
               ))
             ) : (

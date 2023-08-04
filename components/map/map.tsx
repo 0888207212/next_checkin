@@ -23,7 +23,7 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
         <MapContainer
           className={style}
           center={{ lat: Number(lat), lng: Number(lng) }}
-          zoom={10}
+          zoom={100}
           // style={style}
         >
           <TileLayer
@@ -42,7 +42,7 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
         <MapContainer
           className={style}
           center={[21.033333, 105.849998]}
-          zoom={10}
+          zoom={100}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

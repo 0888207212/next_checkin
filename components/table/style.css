@@ -35,10 +35,22 @@
   box-shadow: rgba(0, 0, 0, 0.25) 0px 6px 12px -4px;
 }
 
+.ant-select {
+  width: 400px !important;
+  margin-right: 50px;
+}
+
 @media (min-width: 640px) {
   .pagination a {
     width: 40px;
     height: 40px;
     margin: 0 0.5rem;
+  }
+}
+
+@media only screen and (max-width: 640px) {
+  .ant-select {
+    width: 100%;
+    margin: 0;
   }
 }

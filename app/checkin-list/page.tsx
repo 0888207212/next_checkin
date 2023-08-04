@@ -33,18 +33,18 @@ const CheckinList = () => {
       key: "check_in_null",
       isCheck: false,
     },
-    {
-      text: "làm dưới 8h",
-      value: 3,
-      key: "less_than_eight",
-      isCheck: false,
-    },
-    {
-      text: "làm trên 8h",
-      value: 4,
-      key: "more_than_eight",
-      isCheck: false,
-    },
+    // {
+    //   text: "làm dưới 8h",
+    //   value: 3,
+    //   key: "less_than_eight",
+    //   isCheck: false,
+    // },
+    // {
+    //   text: "làm trên 8h",
+    //   value: 4,
+    //   key: "more_than_eight",
+    //   isCheck: false,
+    // },
   ]);
 
   useEffect(() => {
@@ -113,7 +113,7 @@ const CheckinList = () => {
 
   return (
     <div className="w-[90%] mx-auto">
-      <div className="sm:flex sm:justify-end sm:items-center sm:my-4">
+      <div className="sm:flex sm:justify-end sm:items-center my-4">
         <div className="sm:flex sm:items-center">
           <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
             <div className="relative">
@@ -159,11 +159,11 @@ const CheckinList = () => {
               )}
             </div>
           </OutsideClickHandler>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-4 sm:mt-0">
             <label htmlFor="">Lọc theo tháng: </label>
             <input
               type="month"
-              className="border"
+              className="border py-1"
               value={filterMonth}
               onChange={onHandleChangeMonth}
             />

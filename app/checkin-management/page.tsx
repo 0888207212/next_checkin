@@ -3,12 +3,15 @@
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import dayjs from "dayjs";
+import { Select } from "antd";
+import type { SelectProps } from "antd";
 import apiAttendences from "@/api/attendances";
 import TableAttendances from "@/components/table/Attendances";
 import { SortDate } from "../checkin-list/page";
-import { useAppSelector } from "@/redux/store";
 import OutsideClickHandler from "react-outside-click-handler";
 import { showToastMessage } from "@/utils/helper";
+import apiAuth from "@/api/auth";
+import { User } from "@/interfaces/user";
 
 const CheckinManagement = () => {
   const [attendances, setAttendances] = useState([]);
@@ -20,6 +23,8 @@ const CheckinManagement = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [showPopupFilter, setShowFilter] = useState(false);
+  const [listUsers, setListUsers] = useState<User[]>([]);
+  const [userSelected, setUserSelected] = useState<number[]>([]);
   const [listFilterAttendances, setListFilterAttendances] = useState([
     {
       text: "không check out",
@@ -33,21 +38,31 @@ const CheckinManagement = () => {
       key: "check_in_null",
       isCheck: false,
     },
-    {
-      text: "làm dưới 8h",
-      value: 3,
-      key: "less_than_eight",
-      isCheck: false,
-    },
-    {
-      text: "làm trên 8h",
-      value: 4,
-      key: "more_than_eight",
-      isCheck: false,
-    },
+    // {
+    //   text: "làm dưới 8h",
+    //   value: 3,
+    //   key: "less_than_eight",
+    //   isCheck: false,
+    // },
+    // {
+    //   text: "làm trên 8h",
+    //   value: 4,
+    //   key: "more_than_eight",
+    //   isCheck: false,
+    // },
   ]);
 
-  const user = useAppSelector((state) => state.authReducer.value);
+  useEffect(() => {
+    (async () => {
+      const response = await apiAuth.listUser();
+      if (response.status === 200) {
+        const listUsers = response.data.users || [];
+        setListUsers(listUsers);
+        const idsUser = listUsers.map((item: User) => item.id);
+        setUserSelected(idsUser);
+      }
+    })();
+  }, []);
 
   useEffect(() => {
     getListAttendencesManagementForAdmin();
@@ -61,11 +76,22 @@ const CheckinManagement = () => {
     return result;
   }, [listFilterAttendances]);
 
+  const listUsersOption = useMemo(() => {
+    if (!listUsers.length) return [];
+    return listUsers.map((item) => {
+      return {
+        value: item.id,
+        label: item.full_name,
+      };
+    });
+  }, [listUsers]);
+
   const getListAttendencesManagementForAdmin = async () => {
     try {
       const params: any = {
         month: filterByMonth,
         checkin_sort: sortDate,
+        page: currentPage,
       };
       if (getListFilterAttendences.length > 0) {
         params.filter = getListFilterAttendences.toString();
@@ -115,11 +141,14 @@ const CheckinManagement = () => {
 
   const handleExport = async () => {
     try {
-      const params: any = {
+      const payload: any = {
         time: filterByMonth,
-        user_id: user.user?.id,
+        user_id: userSelected,
       };
-      const response = await apiAttendences.exportExcel(params);
+      listFilterAttendances.forEach((item) => {
+        payload[item.key] = item.isCheck;
+      });
+      const response = await apiAttendences.exportExcel(payload);
       if (response.status === 200) {
         // Create a temporary URL to the Blob data
         const url = URL.createObjectURL(response.data);
@@ -141,9 +170,21 @@ const CheckinManagement = () => {
     }
   };
 
+  const selectProps: SelectProps = {
+    mode: "multiple",
+    style: { width: "100%" },
+    value: userSelected,
+    options: listUsersOption,
+    onChange: (newValue: number[]) => {
+      setUserSelected(newValue);
+    },
+    placeholder: "Chọn nhân viên...",
+    maxTagCount: "responsive",
+  };
+
   return (
     <div className="w-[90%] mx-auto">
-      <div className="sm:flex sm:justify-between sm:items-center sm:my-4">
+      <div className="sm:flex sm:justify-between sm:items-center my-4">
         <button
           className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
           onClick={handleExport}
@@ -151,10 +192,14 @@ const CheckinManagement = () => {
           Xuất chấm công
         </button>
         <div className="sm:flex sm:items-center">
+          <div className="flex items-center justify-between gap-2 my-4">
+            <span className="text-sm sm:text-base">Lọc theo member</span>
+            <Select {...selectProps} />
+          </div>
           <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
             <div className="relative">
               <button
-                className="w-[100px] border border-[#dee2e6] text-center py-1 cursor-pointer filter-attendances mr-40"
+                className="w-[100px] border border-[#dee2e6] text-center py-1 cursor-pointer filter-attendances mr-32"
                 onClick={() => setShowFilter(!showPopupFilter)}
               >
                 Bộ lọc
@@ -195,11 +240,11 @@ const CheckinManagement = () => {
               )}
             </div>
           </OutsideClickHandler>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 mt-4 sm:mt-0">
             <label htmlFor="">Lọc theo tháng: </label>
             <input
               type="month"
-              className="border"
+              className="border py-1"
               value={filterByMonth}
               onChange={onHandleChangeMonth}
             />

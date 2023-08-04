@@ -9,9 +9,9 @@ const apiAttendences = {
     const url = "/user/checkins";
     return axiosInstance.get(url, { params });
   },
-  exportExcel(params) {
+  exportExcel(payload) {
     const url = "/export";
-    return axiosInstance.get(url, { params, responseType: "blob" });
+    return axiosInstance.post(url, payload, { responseType: "blob" });
   },
 };
 

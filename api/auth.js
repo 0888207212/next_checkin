@@ -13,6 +13,10 @@ const apiAuth = {
     const url = "/auth/logout";
     return axiosInstance.post(url);
   },
+  listUser() {
+    const url = "/users";
+    return axiosInstance.get(url);
+  },
 };
 
 export default apiAuth;
