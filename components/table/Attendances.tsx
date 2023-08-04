@@ -1,13 +1,17 @@
 import dayjs from "dayjs";
+import Image from "next/image";
 import { User } from "@/interfaces/user";
 import Pagination from "./Pagination";
 import Loading from "../loading";
+import { SortDate } from "@/app/checkin-list/page";
 
 interface Props {
   attendances: AttendancesUser<User>[];
   isLoading: boolean;
   totalPage: number;
   currentPage: number;
+  sortDate: SortDate;
+  handleSortDate: () => void;
   changeCurrentPage: (currentPage: number) => void;
 }
 
@@ -27,8 +31,14 @@ interface AttendancesUser<T> {
 }
 
 const TableAttendances = (props: Props) => {
-  const { attendances, isLoading, totalPage, currentPage, changeCurrentPage } =
-    props;
+  const {
+    attendances,
+    isLoading,
+    totalPage,
+    sortDate,
+    handleSortDate,
+    changeCurrentPage,
+  } = props;
 
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
@@ -38,7 +48,7 @@ const TableAttendances = (props: Props) => {
 
   return (
     <div>
-      <div className="w-[90%] mx-auto mb-10 relative min-h-[600px] max-h-[600px] overflow-auto shadow-md sm:rounded-lg">
+      <div className="mx-auto mb-10 relative min-h-[600px] max-h-[600px] overflow-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
@@ -46,7 +56,19 @@ const TableAttendances = (props: Props) => {
                 scope="col"
                 className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
               >
-                Ngày
+                <div className="flex items-center gap-2">
+                  Ngày
+                  <Image
+                    src="/sort-date.png"
+                    alt="icon-sort"
+                    width="10"
+                    height="10"
+                    className={`cursor-ns-resize ${
+                      sortDate === "ASC" && "transform rotate-180"
+                    }`}
+                    onClick={handleSortDate}
+                  />
+                </div>
               </th>
               <th
                 scope="col"

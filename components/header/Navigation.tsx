@@ -54,8 +54,6 @@ const Navigation = () => {
     return navLinks;
   }, [user, navLinks]);
 
-  const [showMenu, setShowMenu] = useState(false);
-
   const onHandleLogout = async () => {
     try {
       const response = await apiAuth.logout();
