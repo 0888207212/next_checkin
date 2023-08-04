@@ -6,7 +6,7 @@ interface PropsMap {
   iconSize: number;
   lat: any;
   lng: any;
-  style: object;
+  style: string;
 }
 
 const GetIcon = (iconSize: any) => {
@@ -21,10 +21,10 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
     <div>
       {lat && lng && (
         <MapContainer
-          className="map"
+          className={style}
           center={{ lat: Number(lat), lng: Number(lng) }}
           zoom={10}
-          style={style}
+          // style={style}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -39,7 +39,11 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
         </MapContainer>
       )}
       {!lat && !lng && (
-        <MapContainer className="map" center={[1, 1]} zoom={10} style={style}>
+        <MapContainer
+          className={style}
+          center={[21.033333, 105.849998]}
+          zoom={10}
+        >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

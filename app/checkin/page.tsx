@@ -12,6 +12,7 @@ import { showToastMessage } from "@/utils/helper/index";
 import apiLocation from "@/api/geo-location";
 import Loading from "@/components/loading/index";
 import Map from "@/components/map/map";
+import bg from "@/public/map.png";
 
 const Checkin = () => {
   const { lat, lng } = useLocation();
@@ -82,25 +83,28 @@ const Checkin = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-276px)] py-12 dark:bg-gray-800 flex items-center">
-      <div className="container mx-auto flex flex-row justify-between items-start">
-        <div className="w-1/2">
+    <div className="h-full sm:h-[calc(100vh-276px)] py-12 dark:bg-gray-800 flex items-center">
+      <div className="container mx-auto flex flex-row max-sm:flex-col justify-between items-start">
+        <div className="w-full mb-3 sm:w-1/2 sm: mr-4">
           <Map
             iconSize={40}
             lat={location ? location?.lat : ""}
             lng={location ? location?.lon : ""}
-            style={{ height: "350px", width: "90%" }}
+            style={"w-full h-[200px] sm:h-[350px]"}
           />
         </div>
 
-        <div className="flex flex-col w-1/2">
-          <div className="flex flex-col border p-16 rounded-lg shadow-md bg-[#f3f6fd]">
-            <p className="font-bold text-[#FF9800] text-2xl mb-6">
+        <div className="flex flex-col w-full sm:w-1/2">
+          <div
+            className="flex flex-col border px-2 py-6 md:p-16 rounded-lg shadow-md bg-[#f3f6fd]"
+            style={{ backgroundImage: `url(${bg.src})` }}
+          >
+            <p className="font-bold text-[#FF9800] text-xl sm:text-2xl mb-6">
               CheckIn Now
             </p>
-            <div className="flex flex-row items-center mb-5">
+            <div className="flex flex-row items-center mb-5 gap-3">
               <svg
-                className="h-8 w-8 text-yellow-500 mr-3"
+                className="w-5 h-5 sm:h-8 sm:w-8 text-yellow-500"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -112,32 +116,33 @@ const Checkin = () => {
                 <circle cx="12" cy="12" r="10" />{" "}
                 <polyline points="12 6 12 12 16 14" />
               </svg>
-              <span className="font-bold text-[#555540] text-xl">
+              <span className="font-bold text-[#555540] text-md sm:text-xl">
                 {date ? date : ""}
               </span>
             </div>
-            <div className="flex flex-row items-center">
-              <svg
-                className="h-8 w-8 text-red-500 mr-3"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                />
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                />
-              </svg>
-
-              <span className="font-bold text-[#555540] text-xl">
+            <div className="flex flex-row items-center gap-3">
+              <div>
+                <svg
+                  className="w-5 h-5 sm:h-8 sm:w-8 text-red-500"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                  />
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  />
+                </svg>
+              </div>
+              <span className="font-bold text-[#555540] text-md sm:text-xl">
                 {location
                   ? `${location?.display_name}`
                   : "Vị trí của bạn chưa được bật"}
@@ -148,7 +153,7 @@ const Checkin = () => {
           <div className="mt-6 flex justify-center">
             <button
               style={!location ? { display: "none" } : {}}
-              className="linear flex flex-row items-center rounded-xl bg-green-500 px-10 py-6 text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200 font-bold text-xl"
+              className="linear flex flex-row items-center rounded-xl bg-green-500 px-6 py-4 sm:px-10 sm:py-6 text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200 font-bold text-md sm:text-xl"
               data-ripple-light
               onClick={() => handleCheckIn()}
             >
@@ -157,11 +162,11 @@ const Checkin = () => {
 
             <button
               style={location ? { display: "none" } : {}}
-              className="linear flex flex-row items-center rounded-xl bg-[#F44336] text-white transition duration-200 hover:bg-[#C62828] active:bg-[#E53935] dark:text-white font-bold text-xl"
+              className="linear flex flex-row items-center rounded-xl bg-[#F44336] text-white transition duration-200 hover:bg-[#C62828] active:bg-[#E53935] dark:text-white font-bold text-md sm:text-xl"
               data-ripple-light
             >
               <a
-                className="px-10 py-6"
+                className=" px-6 py-4 sm:px-10 sm:py-6"
                 target="blank"
                 href="https://support.google.com/maps/answer/2839911?hl=vi&authuser=0&visit_id=638264773336626043-1974392544&co=GENIE.Platform%3DDesktop&oco=&p=browser_lp&rd=1#permission"
               >
