@@ -115,9 +115,9 @@ const Navigation = () => {
             const isActive = pathname === link.url;
             return (
               <Link
-                className={`text-xl font-semibold hover:text-[#fe4f18] max-md:hover:bg-[#1C64F2] max-md:dark:text-black max-md:dark:hover:text-white max-md:dark:hover:bg-[#a3d69f] max-md:dark:bg-red px-8 py-2 max-md:dark:hover:text-white" ${
+                className={`text-sm sm:text-xl font-semibold hover:text-[#FBE9E7] sm:hover:text-[#FF3D00] max-md:hover:bg-[#607D8B] max-md:dark:text-black max-md:dark:hover:text-white max-md:dark:hover:bg-[#a3d69f] max-md:dark:bg-red px-8 py-2 max-md:dark:hover:text-white" ${
                   isActive
-                    ? "text-[#fe4f18] !max-md:text-white max-md:bg-[#1C64F2]"
+                    ? "text-[#FBE9E7] sm:text-[#FF3D00] !max-md:text-white max-md:bg-[#607D8B]"
                     : "text-black max-md:text-black max-md:bg-gray-100 "
                 }`}
                 href={link.url}
