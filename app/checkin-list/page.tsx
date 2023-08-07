@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import OutsideClickHandler from "react-outside-click-handler";
 import apiAttendences from "@/api/attendances";
@@ -46,6 +47,8 @@ const CheckinList = () => {
     //   isCheck: false,
     // },
   ]);
+
+  const router = useRouter();
 
   useEffect(() => {
     getListAttendencesUser();
@@ -109,6 +112,10 @@ const CheckinList = () => {
     cloneListFilterAttendances[index].isCheck =
       !cloneListFilterAttendances[index].isCheck;
     setListFilterAttendances(cloneListFilterAttendances);
+  };
+
+  const handleDetailAttendances = (id: number) => {
+    router.push(`/checkin-list/${id}`);
   };
 
   return (
@@ -178,6 +185,7 @@ const CheckinList = () => {
         sortDate={sortDate}
         handleSortDate={handleSortDate}
         changeCurrentPage={handleChangeCurrentPage}
+        handleDetailAttendances={handleDetailAttendances}
       />
     </div>
   );

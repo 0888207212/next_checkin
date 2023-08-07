@@ -13,7 +13,7 @@ import apiLocation from "@/api/geo-location";
 import Loading from "@/components/loading/index";
 import Map from "@/components/map/map";
 import bg from "@/public/map.png";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Checkin = () => {
   const { lat, lng } = useLocation();
@@ -166,13 +166,13 @@ const Checkin = () => {
               className="linear flex flex-row items-center rounded-xl bg-[#F44336] text-white transition duration-200 hover:bg-[#C62828] active:bg-[#E53935] dark:text-white font-bold text-md sm:text-xl"
               data-ripple-light
             >
-              <a
+              <Link
                 className=" px-6 py-4 sm:px-10 sm:py-6"
                 target="blank"
                 href="https://support.google.com/maps/answer/2839911?hl=vi&authuser=0&visit_id=638264773336626043-1974392544&co=GENIE.Platform%3DDesktop&oco=&p=browser_lp&rd=1#permission"
               >
                 Hướng dẫn bật vị trí để checkin
-              </a>
+              </Link>
             </button>
           </div>
         </div>

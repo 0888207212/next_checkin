@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import { Select } from "antd";
 import type { SelectProps } from "antd";
@@ -51,6 +52,8 @@ const CheckinManagement = () => {
     //   isCheck: false,
     // },
   ]);
+
+  const router = useRouter();
 
   useEffect(() => {
     (async () => {
@@ -182,6 +185,10 @@ const CheckinManagement = () => {
     maxTagCount: "responsive",
   };
 
+  const handleDetailAttendances = (id: number) => {
+    router.push(`/checkin-management/${id}`);
+  };
+
   return (
     <div className="w-[90%] mx-auto">
       <div className="sm:flex sm:justify-between sm:items-center my-4">
@@ -259,6 +266,7 @@ const CheckinManagement = () => {
         sortDate={sortDate}
         handleSortDate={handleSortDate}
         changeCurrentPage={handleChangeCurrentPage}
+        handleDetailAttendances={handleDetailAttendances}
       />
     </div>
   );

@@ -4,7 +4,6 @@ import { User } from "@/interfaces/user";
 import Pagination from "./Pagination";
 import Loading from "../loading";
 import { SortDate } from "@/app/checkin-list/page";
-import { useRouter } from "next/navigation";
 
 interface Props {
   attendances: AttendancesUser<User>[];
@@ -14,6 +13,7 @@ interface Props {
   sortDate: SortDate;
   handleSortDate: () => void;
   changeCurrentPage: (currentPage: number) => void;
+  handleDetailAttendances: (id: number) => void;
 }
 
 interface AttendancesUser<T> {
@@ -40,8 +40,8 @@ const TableAttendances = (props: Props) => {
     sortDate,
     handleSortDate,
     changeCurrentPage,
+    handleDetailAttendances,
   } = props;
-  const router = useRouter();
 
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
@@ -49,8 +49,8 @@ const TableAttendances = (props: Props) => {
     return dayjs(date).format(format || "HH:mm:ss");
   };
 
-  const handleShowDetail = (id: number) => {
-    return router.push(`/checkin-list/${id}`);
+  const onHandleDetailAttendances = (id: number) => {
+    handleDetailAttendances(id);
   };
 
   return (
@@ -134,7 +134,7 @@ const TableAttendances = (props: Props) => {
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   key={item.id}
-                  onClick={() => handleShowDetail(item?.id)}
+                  onClick={() => onHandleDetailAttendances(item.id)}
                 >
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {convertDateTime(item.check_in_time, "DD/MM/YYYY")}
