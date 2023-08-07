@@ -69,7 +69,13 @@ const CheckinManagement = () => {
 
   useEffect(() => {
     getListAttendencesManagementForAdmin();
-  }, [currentPage, sortDate, filterByMonth, listFilterAttendances]);
+  }, [
+    currentPage,
+    sortDate,
+    filterByMonth,
+    listFilterAttendances,
+    userSelected,
+  ]);
 
   const getListFilterAttendences = useMemo(() => {
     const result: number[] = [];
@@ -95,6 +101,7 @@ const CheckinManagement = () => {
         month: filterByMonth,
         checkin_sort: sortDate,
         page: currentPage,
+        user_id: userSelected.toString(),
       };
       if (getListFilterAttendences.length > 0) {
         params.filter = getListFilterAttendences.toString();
