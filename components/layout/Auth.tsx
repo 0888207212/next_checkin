@@ -6,8 +6,10 @@ import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
 import apiAuth from "@/api/auth";
 import { logIn } from "@/redux/features/auth-slice";
-import Header from "../header";
-import Footer from "../footer";
+import dynamic from "next/dynamic";
+
+const Header = dynamic(() => import("../header"), { ssr: false });
+const Footer = dynamic(() => import("../footer"), { ssr: false });
 
 export function AuthLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
