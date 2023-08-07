@@ -17,6 +17,10 @@ const apiAttendences = {
     const url = `/user/checkin/${id}`;
     return axiosInstance.get(url);
   },
+  getDetailAttendencesAdmin(id) {
+    const url = `admin/attendances/checkin/${id}`;
+    return axiosInstance.get(url);
+  },
 };
 
 export default apiAttendences;

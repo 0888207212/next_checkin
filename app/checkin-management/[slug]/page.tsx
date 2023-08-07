@@ -20,7 +20,7 @@ const DetailUser = ({ params }: { params: { slug: number } }) => {
   const getDetailAttendencesUser = async () => {
     try {
       setIsLoading(true);
-      const res = await apiAttendences.getDetailAttendences(slug);
+      const res = await apiAttendences.getDetailAttendencesAdmin(slug);
       if (res.status === 200) {
         setUserAttendance(res.data.attendance);
       }
