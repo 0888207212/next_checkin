@@ -4,6 +4,7 @@ import { User } from "@/interfaces/user";
 import Pagination from "./Pagination";
 import Loading from "../loading";
 import { SortDate } from "@/app/checkin-list/page";
+import { useRouter } from "next/navigation";
 
 interface Props {
   attendances: AttendancesUser<User>[];
@@ -40,11 +41,16 @@ const TableAttendances = (props: Props) => {
     handleSortDate,
     changeCurrentPage,
   } = props;
+  const router = useRouter();
 
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
 
     return dayjs(date).format(format || "HH:mm:ss");
+  };
+
+  const handleShowDetail = (id: number) => {
+    return router.push(`/checkin-list/${id}`);
   };
 
   return (
@@ -128,6 +134,7 @@ const TableAttendances = (props: Props) => {
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
                   key={item.id}
+                  onClick={() => handleShowDetail(item?.id)}
                 >
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {convertDateTime(item.check_in_time, "DD/MM/YYYY")}

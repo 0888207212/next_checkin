@@ -13,6 +13,10 @@ const apiAttendences = {
     const url = "/export";
     return axiosInstance.post(url, payload, { responseType: "blob" });
   },
+  getDetailAttendences(id) {
+    const url = `/user/checkin/${id}`;
+    return axiosInstance.get(url);
+  },
 };
 
 export default apiAttendences;
