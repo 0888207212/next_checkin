@@ -1,3 +1,5 @@
+"use client";
+
 import dayjs from "dayjs";
 import Image from "next/image";
 import { User } from "@/interfaces/user";
@@ -54,7 +56,7 @@ const TableAttendances = (props: Props) => {
   };
 
   return (
-    <div>
+    <>
       <div className="mx-auto mb-10 relative min-h-[600px] max-h-[600px] overflow-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="sticky top-0 text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -119,17 +121,10 @@ const TableAttendances = (props: Props) => {
               >
                 Tổng giờ làm
               </th>
-              {/* <th
-                scope="col"
-                className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
-              >
-                Trạng thái
-              </th> */}
             </tr>
           </thead>
           <tbody>
-            {isLoading && <Loading />}
-            {attendances.length > 0 ? (
+            {attendances.length > 0 &&
               attendances.map((item) => (
                 <tr
                   className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer"
@@ -160,19 +155,14 @@ const TableAttendances = (props: Props) => {
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {item.cv_working_time}
                   </td>
-                  {/* <td className="flex items-center px-3 py-2 sm:px-6 sm:py-4 space-x-3"></td> */}
                 </tr>
-              ))
-            ) : (
-              <div className="absolute top-1/2 left-1/2">
-                Không có dữ liệu nào
-              </div>
-            )}
+              ))}
           </tbody>
         </table>
       </div>
+      {isLoading && <Loading />}
       <Pagination totalPage={totalPage} changeCurrentPage={changeCurrentPage} />
-    </div>
+    </>
   );
 };
 

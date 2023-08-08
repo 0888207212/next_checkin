@@ -28,13 +28,13 @@ const CheckinManagement = () => {
   const [userSelected, setUserSelected] = useState<number[]>([]);
   const [listFilterAttendances, setListFilterAttendances] = useState([
     {
-      text: "không check out",
+      text: "Không check out",
       value: 1,
       key: "check_out_null",
       isCheck: false,
     },
     {
-      text: "không checkin, checkout",
+      text: "Không checkin, checkout",
       value: 2,
       key: "check_in_null",
       isCheck: false,
