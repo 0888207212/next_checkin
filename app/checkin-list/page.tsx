@@ -8,6 +8,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import apiAttendences from "@/api/attendances";
 import TableAttendances from "@/components/table/Attendances";
 import { showToastMessage } from "@/utils/helper";
+import { useAppSelector } from "@/redux/store";
 
 export type SortDate = "DESC" | "ASC";
 
@@ -47,6 +48,8 @@ const CheckinList = () => {
     //   isCheck: false,
     // },
   ]);
+
+  const user = useAppSelector((state) => state.authReducer.value);
 
   const router = useRouter();
 
@@ -118,9 +121,46 @@ const CheckinList = () => {
     router.push(`/checkin-list/${id}`);
   };
 
+  const handleExport = async () => {
+    try {
+      const payload: any = {
+        time: filterMonth,
+        user_id: [user.user?.id],
+      };
+      listFilterAttendances.forEach((item) => {
+        payload[item.key] = item.isCheck;
+      });
+      const response = await apiAttendences.exportExcel(payload);
+      if (response.status === 200) {
+        // Create a temporary URL to the Blob data
+        const url = URL.createObjectURL(response.data);
+
+        // Create a temporary anchor element to trigger the download
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "Danh sách chấm công.xls"; // Change the filename as needed
+        a.click();
+
+        // Clean up the temporary objects
+        URL.revokeObjectURL(url);
+
+        showToastMessage("Download file thành công", "success");
+      }
+    } catch (error) {
+      console.log("error", error);
+      showToastMessage("Download file thất bại", "error");
+    }
+  };
+
   return (
     <div className="w-[90%] mx-auto">
-      <div className="sm:flex sm:justify-end sm:items-center my-4">
+      <div className="sm:flex sm:justify-between sm:items-center my-4">
+        <button
+          className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
+          onClick={handleExport}
+        >
+          Xuất chấm công
+        </button>
         <div className="sm:flex sm:items-center">
           <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
             <div className="relative">
