@@ -96,11 +96,11 @@ const Navigation = () => {
               <strong>{user.user?.full_name || "Nguyễn Văn A"}</strong>
             </div>
             <div>
-              <div className="hover:bg-[#F5F5F5] px-3 py-1">
+              <div className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer">
                 Thông tin hồ sơ
               </div>
               <div
-                className="hover:bg-[#F5F5F5] px-3 py-1"
+                className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer"
                 onClick={onHandleLogout}
               >
                 Đăng xuất

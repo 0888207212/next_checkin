@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
 import { Select } from "antd";
-import type { SelectProps } from "antd";
 import apiAttendences from "@/api/attendances";
 import TableAttendances from "@/components/table/Attendances";
 import { SortDate } from "../checkin-list/page";
@@ -13,6 +12,15 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { showToastMessage } from "@/utils/helper";
 import apiAuth from "@/api/auth";
 import { User } from "@/interfaces/user";
+
+const { Option } = Select;
+
+interface SelectedOptionUser {
+  value: number;
+  label: string;
+}
+
+const SELECTED_ALL = -1;
 
 const CheckinManagement = () => {
   const [attendances, setAttendances] = useState([]);
@@ -61,8 +69,6 @@ const CheckinManagement = () => {
       if (response.status === 200) {
         const listUsers = response.data.users || [];
         setListUsers(listUsers);
-        const idsUser = listUsers.map((item: User) => item.id);
-        setUserSelected(idsUser);
       }
     })();
   }, []);
@@ -85,7 +91,7 @@ const CheckinManagement = () => {
     return result;
   }, [listFilterAttendances]);
 
-  const listUsersOption = useMemo(() => {
+  const listUsersOption: SelectedOptionUser[] = useMemo(() => {
     if (!listUsers.length) return [];
     return listUsers.map((item) => {
       return {
@@ -101,8 +107,11 @@ const CheckinManagement = () => {
         month: filterByMonth,
         checkin_sort: sortDate,
         page: currentPage,
-        user_id: userSelected.toString(),
       };
+      if (userSelected.length > 0) {
+        const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
+        params.user_id = userIds.toString();
+      }
       if (getListFilterAttendences.length > 0) {
         params.filter = getListFilterAttendences.toString();
       }
@@ -180,18 +189,6 @@ const CheckinManagement = () => {
     }
   };
 
-  const selectProps: SelectProps = {
-    mode: "multiple",
-    style: { width: "100%" },
-    value: userSelected,
-    options: listUsersOption,
-    onChange: (newValue: number[]) => {
-      setUserSelected(newValue);
-    },
-    placeholder: "Chọn nhân viên...",
-    maxTagCount: "responsive",
-  };
-
   const handleDetailAttendances = (id: number) => {
     router.push(`/checkin-management/${id}`);
   };
@@ -208,7 +205,48 @@ const CheckinManagement = () => {
         <div className="sm:flex sm:items-center">
           <div className="flex items-center justify-between gap-2 my-4">
             <span className="text-sm sm:text-base">Lọc theo member</span>
-            <Select {...selectProps} />
+            <Select
+              mode="multiple"
+              style={{ width: "100%" }}
+              maxTagCount="responsive"
+              placeholder="Chọn nhân viên..."
+              value={userSelected}
+              onChange={(newValue: number[]) => {
+                if (newValue.length === listUsersOption.length) {
+                  newValue.push(SELECTED_ALL);
+                  setUserSelected(newValue);
+                  return;
+                }
+                setUserSelected(newValue);
+              }}
+              onSelect={(value: any) => {
+                if (value === SELECTED_ALL) {
+                  const idsUser = listUsersOption.map((item) => item.value);
+                  idsUser.push(value);
+                  setUserSelected(idsUser);
+                }
+              }}
+              onDeselect={(value: number) => {
+                if (value === SELECTED_ALL) {
+                  setUserSelected([]);
+                } else if (
+                  value !== SELECTED_ALL &&
+                  userSelected.includes(SELECTED_ALL)
+                ) {
+                  const result = userSelected.filter(
+                    (item) => item !== value && item !== SELECTED_ALL
+                  );
+                  setUserSelected(result);
+                }
+              }}
+            >
+              <Option value={SELECTED_ALL}>Chọn tất cả</Option>
+              {listUsersOption.map((option: any) => (
+                <Option key={option.value} value={option.value}>
+                  {option.label}
+                </Option>
+              ))}
+            </Select>
           </div>
           <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
             <div className="relative">
