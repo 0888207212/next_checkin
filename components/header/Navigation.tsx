@@ -91,22 +91,24 @@ const Navigation = () => {
             />
           }
         >
-          <Dropdown.Header>
+          <Dropdown.Item>
             <div className="max-md:hidden px-3 py-1">
               <strong>{user.user?.full_name || "Nguyễn Văn A"}</strong>
             </div>
-            <div>
-              <div className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer">
-                Thông tin hồ sơ
-              </div>
-              <div
-                className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer"
-                onClick={onHandleLogout}
-              >
-                Đăng xuất
-              </div>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <div className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer">
+              Thông tin hồ sơ
             </div>
-          </Dropdown.Header>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <div
+              className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer"
+              onClick={onHandleLogout}
+            >
+              Đăng xuất
+            </div>
+          </Dropdown.Item>
         </Dropdown>
       </div>
       <Navbar.Collapse>

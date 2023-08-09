@@ -96,7 +96,7 @@ const Checkin = () => {
               "w-full h-[600px] sm:h-[600px] rounded-lg shadow-md z-0 relative"
             }
           />
-          <div className="flex flex-col w-[80%] md:w-1/3 2xl:w-1/5 absolute right-[10%] md:right-3 xl:right-[7%] 2xl:right-[21%] bottom-[15%] md:bottom-[9%] lg:bottom-[20%] z-10 bg-[#FAFAFA] rounded-lg shadow-md p-3">
+          <div className="flex flex-col w-[80%] md:w-1/3 2xl:w-1/5 absolute right-[10%] md:right-3 xl:right-[7%] 2xl:right-[21%] bottom-0 md:bottom-[9%] lg:bottom-[20%] z-10 bg-[#FAFAFA] rounded-lg shadow-md p-3">
             <div className="flex flex-col px-2">
               <p className="font-bold text-[#F4511E] text-base sm:text-md mb-3 sm:mb-6 md:mb-3">
                 CheckIn Now
