@@ -1,7 +1,7 @@
 "use client";
 
+import dayjs from "dayjs";
 import { useLocation } from "@/hook/useLocation";
-import { useGetDateTime } from "@/hook/useCurrentDate";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import apiCheckIn from "@/api/checkin";
 import { useEffect, useState } from "react";
@@ -28,8 +28,7 @@ const Checkin = () => {
 
   useEffect(() => {
     setInterval(() => {
-      const getDate = useGetDateTime(new Date());
-      setDate(getDate);
+      setDate(dayjs().format("YYYY-MM-DD HH:mm:ss"));
     }, 1000);
 
     if (lat && lng) {
