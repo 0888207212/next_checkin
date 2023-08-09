@@ -23,7 +23,7 @@ const CompleteProfile = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between p-12 h-[calc(100vh-231px)]">
+    <div className="flex flex-col items-center justify-between py-10 sm:p-12 h-[calc(100vh-231px)]">
       <FormCompleteProfile handleForm={completeProfile} />
     </div>
   );

@@ -82,15 +82,15 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col pb-12 pt-8 px-10 border rounded-lg bg-[#f3f3ed] w-[460px] mx-auto max-w-screen-xl shadow-lg"
+        className="flex flex-col pb-12 pt-8 px-5 sm:px-10 border rounded-lg bg-[#FAFAFA] w-[380px] sm:w-[460px] mx-auto max-w-screen-xl shadow-lg"
       >
-        <div className="flex justify-start text-[#da783f] font-bold text-xl mb-8">
+        <div className="flex justify-start text-[#00C853] font-bold text-xl sm:text-xl mb-8">
           COMPLETE PROFILE
         </div>
-        <div className="flex flex-col mb-8">
-          <label>ID nhân viên</label>
+        <div className="flex flex-col mb-4 sm:mb-8">
+          <label className="text-sm sm:text-md font-bold">ID nhân viên</label>
           <input
-            className="outline-none p-2 border mt-2"
+            className="outline-none p1 sm:p-2 border mt-2 text-sm sm:text-md"
             type="number"
             placeholder="ID nhân viên"
             {...register("code")}
@@ -99,8 +99,10 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
             <span className="text-[red]">{errors.code?.message}</span>
           )}
         </div>
-        <div className="flex flex-col mb-8">
-          <label>Tòa nhà làm việc</label>
+        <div className="flex flex-col mb-4 sm:mb-8">
+          <label className="text-sm sm:text-md font-bold">
+            Tòa nhà làm việc
+          </label>
           <select
             {...register("department_id")}
             className="outline-none p-2 border mt-2"
@@ -118,8 +120,10 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
             <span className="text-[red]">{errors.department_id?.message}</span>
           )}
         </div>
-        <div className="flex flex-col mb-16">
-          <label>Bộ phần làm việc</label>
+        <div className="flex flex-col mb-8 sm:mb-16">
+          <label className="text-sm sm:text-md font-bold">
+            Bộ phần làm việc
+          </label>
           <select
             {...register("center")}
             className="outline-none p-2 border mt-2"
