@@ -165,12 +165,12 @@ const CheckinList = () => {
                 Bộ lọc
               </button>
               {showPopupFilter && (
-                <div className="absolute top-full z-30 bg-white dropdown-menu-filter min-w-[150px] mt-1">
-                  <ul className="py-2">
+                <div className="absolute top-full z-30 bg-white dropdown-menu-filter min-w-[150px] mt-1 rounded-lg">
+                  <ul className="py-1">
                     {listFilterAttendances.map((item, index) => (
                       <>
                         <li
-                          className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] ${
+                          className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] w-[250px] ${
                             item.isCheck
                               ? "text-[#333232] font-bold "
                               : "text-[#4c4c4c]"
@@ -178,7 +178,7 @@ const CheckinList = () => {
                           key={item.value}
                           onClick={() => handleFilterAttendances(index)}
                         >
-                          <div className="w-[10px]">
+                          <div className="min-w-[10px] max-w-[10px]">
                             {item.isCheck && (
                               <Image
                                 src="/icon-check.png"
@@ -188,7 +188,7 @@ const CheckinList = () => {
                               />
                             )}
                           </div>
-                          {item.text}
+                          <span>{item.text}</span>
                         </li>
                         {listFilterAttendances.length - 1 !== index && (
                           <div className="border-t border-t-[#e9ecef] my-[0.5rem]"></div>

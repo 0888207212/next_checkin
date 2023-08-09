@@ -35,7 +35,7 @@ const LoginUserPage = () => {
         return router.push("/");
       }
     } catch (error) {
-      showToastMessage("Đăng nhập thất bại", "error");
+      showToastMessage("Bạn cần đăng nhập bằng mail VMO", "error");
       console.log("error", error);
     }
   };

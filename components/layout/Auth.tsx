@@ -19,7 +19,6 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    if (pathname === "/login") return;
     getUser();
   }, []);
 
@@ -30,6 +29,9 @@ export function AuthLayout({ children }: { children: React.ReactNode }) {
         dispatch(logIn(response.data.user));
         if (response.data.user.status === "Draft") {
           router.push("/complete-profile");
+        }
+        if (pathname === "/login") {
+          router.push("/");
         }
       }
     } catch (error: any) {
