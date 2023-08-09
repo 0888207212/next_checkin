@@ -242,7 +242,7 @@ const CheckinManagement = () => {
             </Option>
           ))}
         </Select>
-        <div className="flex items-center justify-between flex-1 mt-4 gap-5 lg:mt-0">
+        <div className="flex items-center justify-between flex-1 mt-4 gap-5 sm:mt-0">
           <div className="flex items-center gap-5 sm:gap-10">
             <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
               <div className="relative">
