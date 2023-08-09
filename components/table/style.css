@@ -29,6 +29,7 @@
 
 .filter-attendances:focus {
   box-shadow: rgba(222, 222, 223, 0.5) 0px 0px 0px 0.2rem;
+  border-color: rgb(107, 114, 128);
 }
 
 .dropdown-menu-filter {
@@ -37,7 +38,20 @@
 
 .ant-select {
   width: 400px !important;
-  margin-right: 50px;
+}
+
+.ant-select-selector {
+  border-color: rgb(107, 114, 128) !important;
+  padding: 0 !important;
+  height: 40px !important;
+}
+
+.ant-select-selection-placeholder {
+  color: #000000 !important;
+}
+
+.ant-select-selector:hover {
+  border-color: rgb(107, 114, 128) !important;
 }
 
 @media (min-width: 640px) {
@@ -50,7 +64,7 @@
 
 @media only screen and (max-width: 640px) {
   .ant-select {
-    width: 100%;
+    width: 100% !important;
     margin: 0;
   }
 }

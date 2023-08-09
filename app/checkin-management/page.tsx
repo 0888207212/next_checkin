@@ -162,8 +162,11 @@ const CheckinManagement = () => {
     try {
       const payload: any = {
         time: filterByMonth,
-        user_id: userSelected,
       };
+      if (userSelected.length > 0) {
+        const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
+        payload.user_id = userIds;
+      }
       listFilterAttendances.forEach((item) => {
         payload[item.key] = item.isCheck;
       });
@@ -195,112 +198,109 @@ const CheckinManagement = () => {
 
   return (
     <div className="w-[90%] mx-auto">
-      <div className="sm:flex sm:justify-between sm:items-center my-4">
-        <button
-          className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
-          onClick={handleExport}
+      <div className="sm:flex sm:gap-10 sm:items-center my-4 lg:h-10">
+        <Select
+          mode="multiple"
+          style={{ width: "100%", height: "100%" }}
+          className="filter-attendances"
+          maxTagCount="responsive"
+          placeholder="Chọn nhân viên..."
+          value={userSelected}
+          onChange={(newValue: number[]) => {
+            if (newValue.length === listUsersOption.length) {
+              newValue.push(SELECTED_ALL);
+              setUserSelected(newValue);
+              return;
+            }
+            setUserSelected(newValue);
+          }}
+          onSelect={(value: any) => {
+            if (value === SELECTED_ALL) {
+              const idsUser = listUsersOption.map((item) => item.value);
+              idsUser.push(value);
+              setUserSelected(idsUser);
+            }
+          }}
+          onDeselect={(value: number) => {
+            if (value === SELECTED_ALL) {
+              setUserSelected([]);
+            } else if (
+              value !== SELECTED_ALL &&
+              userSelected.includes(SELECTED_ALL)
+            ) {
+              const result = userSelected.filter(
+                (item) => item !== value && item !== SELECTED_ALL
+              );
+              setUserSelected(result);
+            }
+          }}
         >
-          Xuất chấm công
-        </button>
-        <div className="sm:flex sm:items-center">
-          <div className="flex items-center justify-between gap-2 my-4">
-            <span className="text-sm sm:text-base">Lọc theo member</span>
-            <Select
-              mode="multiple"
-              style={{ width: "100%" }}
-              maxTagCount="responsive"
-              placeholder="Chọn nhân viên..."
-              value={userSelected}
-              onChange={(newValue: number[]) => {
-                if (newValue.length === listUsersOption.length) {
-                  newValue.push(SELECTED_ALL);
-                  setUserSelected(newValue);
-                  return;
-                }
-                setUserSelected(newValue);
-              }}
-              onSelect={(value: any) => {
-                if (value === SELECTED_ALL) {
-                  const idsUser = listUsersOption.map((item) => item.value);
-                  idsUser.push(value);
-                  setUserSelected(idsUser);
-                }
-              }}
-              onDeselect={(value: number) => {
-                if (value === SELECTED_ALL) {
-                  setUserSelected([]);
-                } else if (
-                  value !== SELECTED_ALL &&
-                  userSelected.includes(SELECTED_ALL)
-                ) {
-                  const result = userSelected.filter(
-                    (item) => item !== value && item !== SELECTED_ALL
-                  );
-                  setUserSelected(result);
-                }
-              }}
-            >
-              <Option value={SELECTED_ALL}>Chọn tất cả</Option>
-              {listUsersOption.map((option: any) => (
-                <Option key={option.value} value={option.value}>
-                  {option.label}
-                </Option>
-              ))}
-            </Select>
-          </div>
-          <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
-            <div className="relative">
-              <button
-                className="w-[100px] border border-[#dee2e6] text-center py-1 cursor-pointer filter-attendances mr-32"
-                onClick={() => setShowFilter(!showPopupFilter)}
-              >
-                Bộ lọc
-              </button>
-              {showPopupFilter && (
-                <div className="absolute top-full z-30 bg-white dropdown-menu-filter min-w-[150px] mt-1">
-                  <ul className="py-2">
-                    {listFilterAttendances.map((item, index) => (
-                      <>
-                        <li
-                          className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] ${
-                            item.isCheck
-                              ? "text-[#333232] font-bold "
-                              : "text-[#4c4c4c]"
-                          }`}
-                          key={item.value}
-                          onClick={() => handleFilterAttendances(index)}
-                        >
-                          <div className="w-[10px]">
-                            {item.isCheck && (
-                              <Image
-                                src="/icon-check.png"
-                                alt="icon-check"
-                                width="10"
-                                height="10"
-                              />
-                            )}
-                          </div>
-                          {item.text}
-                        </li>
-                        {listFilterAttendances.length - 1 !== index && (
-                          <div className="border-t border-t-[#e9ecef] my-[0.5rem]"></div>
-                        )}
-                      </>
-                    ))}
-                  </ul>
-                </div>
-              )}
-            </div>
-          </OutsideClickHandler>
-          <div className="flex items-center gap-2 mt-4 sm:mt-0">
-            <label htmlFor="">Lọc theo tháng: </label>
+          <Option value={SELECTED_ALL}>Chọn tất cả</Option>
+          {listUsersOption.map((option: any) => (
+            <Option key={option.value} value={option.value}>
+              {option.label}
+            </Option>
+          ))}
+        </Select>
+        <div className="flex items-center justify-between flex-1 mt-4 gap-5 lg:mt-0">
+          <div className="flex items-center gap-5 sm:gap-10">
+            <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
+              <div className="relative">
+                <button
+                  className="w-[70px] sm:w-[100px] border border-[rgb(107,114,128)] text-center py-1 cursor-pointer filter-attendances rounded-md h-10"
+                  onClick={() => setShowFilter(!showPopupFilter)}
+                >
+                  Bộ lọc
+                </button>
+                {showPopupFilter && (
+                  <div className="absolute top-full z-30 bg-white dropdown-menu-filter min-w-[150px] mt-1 rounded-lg">
+                    <ul className="py-1">
+                      {listFilterAttendances.map((item, index) => (
+                        <>
+                          <li
+                            className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] w-[250px] ${
+                              item.isCheck
+                                ? "text-[#333232] font-bold "
+                                : "text-[#4c4c4c]"
+                            }`}
+                            key={item.value}
+                            onClick={() => handleFilterAttendances(index)}
+                          >
+                            <div className="min-w-[10px] max-w-[10px]">
+                              {item.isCheck && (
+                                <Image
+                                  src="/icon-check.png"
+                                  alt="icon-check"
+                                  width="10"
+                                  height="10"
+                                />
+                              )}
+                            </div>
+                            <span>{item.text}</span>
+                          </li>
+                          {listFilterAttendances.length - 1 !== index && (
+                            <div className="border-t border-t-[#e9ecef] my-[0.5rem]"></div>
+                          )}
+                        </>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </OutsideClickHandler>
             <input
               type="month"
-              className="border py-1"
+              className="w-[150px] sm:w-full border border-[rgb(107,114,128)] py-1 rounded-md h-10 filter-attendances"
               value={filterByMonth}
               onChange={onHandleChangeMonth}
             />
           </div>
+          <button
+            className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
+            onClick={handleExport}
+          >
+            Export
+          </button>
         </div>
       </div>
       <TableAttendances

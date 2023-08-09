@@ -154,18 +154,12 @@ const CheckinList = () => {
 
   return (
     <div className="w-[90%] mx-auto">
-      <div className="sm:flex sm:justify-between sm:items-center my-4">
-        <button
-          className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
-          onClick={handleExport}
-        >
-          Xuất chấm công
-        </button>
-        <div className="sm:flex sm:items-center">
+      <div className="flex justify-between sm:items-center my-4">
+        <div className="flex items-center gap-5 sm:gap-10">
           <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
             <div className="relative">
               <button
-                className="w-[100px] border border-[#dee2e6] text-center py-1 cursor-pointer filter-attendances mr-40"
+                className="w-[70px] sm:w-[100px] border border-[rgb(107,114,128)] text-center py-1 cursor-pointer filter-attendances rounded-md h-10"
                 onClick={() => setShowFilter(!showPopupFilter)}
               >
                 Bộ lọc
@@ -206,16 +200,19 @@ const CheckinList = () => {
               )}
             </div>
           </OutsideClickHandler>
-          <div className="flex items-center gap-2 mt-4 sm:mt-0">
-            <label htmlFor="">Lọc theo tháng: </label>
-            <input
-              type="month"
-              className="border py-1"
-              value={filterMonth}
-              onChange={onHandleChangeMonth}
-            />
-          </div>
+          <input
+            type="month"
+            className="w-[150px] sm:w-full border border-[rgb(107,114,128)] py-1 rounded-md h-10 filter-attendances"
+            value={filterMonth}
+            onChange={onHandleChangeMonth}
+          />
         </div>
+        <button
+          className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
+          onClick={handleExport}
+        >
+          Export
+        </button>
       </div>
       <TableAttendances
         attendances={attendances}
