@@ -1,15 +1,18 @@
 "use client";
 
-import { useAppSelector } from "@/redux/store";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/redux/store";
 
 export default function Home() {
   const user = useAppSelector((state) => state.authReducer.value);
 
   const router = useRouter();
 
-  if (user.user?.role === "Admin") {
-    return router.push("/checkin-management");
-  }
-  router.push("/checkin");
+  useEffect(() => {
+    if (user.user?.role === "Admin") {
+      return router.push("/checkin-management");
+    }
+    return router.push("/checkin");
+  }, []);
 }

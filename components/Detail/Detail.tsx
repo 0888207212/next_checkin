@@ -13,7 +13,7 @@ const Detail = ({ userAttendance, backRouter }: any) => {
   const handleBackCheckin = () => {
     return router.push(backRouter);
   };
-  console.log(111, userAttendance);
+
   return (
     <div className="container mx-auto w-full sm:w-2/3">
       <div className="flex flex-row items-center">

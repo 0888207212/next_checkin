@@ -1,6 +1,7 @@
 "use client";
 
 import dayjs from "dayjs";
+import dynamic from "next/dynamic";
 import { useLocation } from "@/hook/useLocation";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import apiCheckIn from "@/api/checkin";
@@ -11,9 +12,11 @@ import { GetAllLocation } from "@/interfaces/location";
 import { showToastMessage } from "@/utils/helper/index";
 import apiLocation from "@/api/geo-location";
 import Loading from "@/components/loading/index";
-import Map from "@/components/map/map";
+// import Map from "@/components/map/map";
 import bg from "@/public/map.png";
 import Link from "next/link";
+
+const Map = dynamic(() => import("@/components/map/map"), { ssr: false });
 
 const Checkin = () => {
   const { lat, lng } = useLocation();
@@ -27,13 +30,15 @@ const Checkin = () => {
   let statusCheck: number = 0;
 
   useEffect(() => {
-    setInterval(() => {
+    const interval = setInterval(() => {
       setDate(dayjs().format("YYYY-MM-DD HH:mm:ss"));
     }, 1000);
 
     if (lat && lng) {
       getLocation();
     }
+
+    return () => clearInterval(interval);
   }, [lat, lng]);
 
   const getLocation = async () => {

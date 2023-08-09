@@ -1,3 +1,5 @@
+"use client";
+
 import L from "leaflet";
 import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import bg from "@/public/location.png";
