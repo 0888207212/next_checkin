@@ -72,7 +72,7 @@ const Navigation = () => {
       <Navbar.Toggle />
       <Navbar.Brand>
         <Link href="/">
-          <Image src="/vmo-logo.png" alt="logo-vmo" width="150" height="100" />
+          <img src="/vmo-logo.png" alt="logo-vmo" width="150" height="100" />
         </Link>
       </Navbar.Brand>
       <div className="flex md:order-2">
@@ -94,11 +94,6 @@ const Navigation = () => {
           <Dropdown.Item>
             <div className="max-md:hidden px-3 py-1">
               <strong>{user.user?.full_name || "Nguyễn Văn A"}</strong>
-            </div>
-          </Dropdown.Item>
-          <Dropdown.Item>
-            <div className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer">
-              Thông tin hồ sơ
             </div>
           </Dropdown.Item>
           <Dropdown.Item>
