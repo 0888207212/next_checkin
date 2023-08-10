@@ -6,7 +6,7 @@ const Footer = () => {
       <footer className="bg-slate-100 md:rounded-lg shadow py-5 sm:py-12  dark:bg-gray-800">
         <div className="w-full mx-auto max-w-screen-xl p-4 md:flex md:items-center md:justify-between">
           <div className="text-xs sm:text-sm text-gray-500 max-sm:text-center sm:text-center dark:text-gray-400">
-            © 2023
+            © 2023&nbsp;
             <Link
               href="https://www.google.com/maps/place/To%C3%A0+nh%C3%A0+TTC+Duy+T%C3%A2n"
               className="hover:underline"

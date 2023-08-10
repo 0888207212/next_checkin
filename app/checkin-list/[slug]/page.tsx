@@ -30,7 +30,7 @@ const DetailUser = ({ params }: { params: { slug: number } }) => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-between p-4 sm:p-12 h-auto sm:h-[calc(100vh-231px)]">
+    <div className="flex flex-col items-center justify-between p-4 sm:p-12 h-auto relative 2xl:min-h-[735px] max-h-full overflow-auto">
       {userAttendance && (
         <Detail userAttendance={userAttendance} backRouter="/checkin-list" />
       )}
