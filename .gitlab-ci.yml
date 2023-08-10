@@ -24,6 +24,6 @@ deploy-dev:
   tags:
     - vmogroup
   script:
-    - ssh -tt -o StrictHostKeyChecking=no $SSH_USER@$SSH_IP_SERVER "cd /home/ubuntu/checkinGPS/backend && git pull && yarn install && yarn build && pm2 restart frontend && pm2 save"
+    - ssh -tt -o StrictHostKeyChecking=no $SSH_USER@$SSH_IP_SERVER "cd /home/ubuntu/checkinGPS/frontend && git pull && yarn install && yarn build && pm2 restart frontend && pm2 save"
   only:
     - main
