@@ -1,0 +1,29 @@
+image: docker:latest
+variables:
+  DOCKER_HOST: tcp://localhost:2375
+  DOCKER_TLS_CERTDIR: ''
+services:
+  - docker:dind
+
+stages:
+  - deploy
+
+.before_script_template:
+  before_script:
+    - 'command -v ssh-agent >/dev/null || ( apk add --update openssh )'
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY " | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SSH_IP_SERVER  >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+
+deploy-dev:
+  stage: deploy
+  extends: .before_script_template
+  tags:
+    - vmogroup
+  script:
+    - ssh -tt -o StrictHostKeyChecking=no $SSH_USER@$SSH_IP_SERVER "cd /home/ubuntu/checkinGPS/backend && git pull && yarn install && yarn build && pm2 restart frontend && pm2 save"
+  only:
+    - main
