@@ -32,6 +32,7 @@ interface AttendancesUser<T> {
   user_id: number;
   working_time?: string;
   cv_working_time: string;
+  created_at: string;
 }
 
 const TableAttendances = (props: Props) => {
@@ -132,7 +133,7 @@ const TableAttendances = (props: Props) => {
                   onClick={() => onHandleDetailAttendances(item.id)}
                 >
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
-                    {convertDateTime(item.check_in_time, "DD/MM/YYYY")}
+                    {convertDateTime(item.created_at, "DD/MM/YYYY")}
                   </td>
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {item.user?.full_name}
