@@ -85,7 +85,7 @@ const Checkin = () => {
   };
 
   return (
-    <div className="h-full sm:h-[calc(100vh-231px)] pt-8 pb-20 sm:py-12  dark:bg-gray-800 flex items-center">
+    <div className="relative 2xl:min-h-[735px] max-h-full overflow-auto pt-8 pb-20 sm:py-12  dark:bg-gray-800 flex items-center">
       <div className="container mx-4 sm:mx-auto flex flex-row max-sm:flex-col justify-between items-start z-0">
         <div className="w-full mb-4 sm:w-full sm:mx-3">
           <Map
@@ -93,10 +93,10 @@ const Checkin = () => {
             lat={location ? location?.lat : ""}
             lng={location ? location?.lon : ""}
             style={
-              "w-full h-[600px] sm:h-[600px] rounded-lg shadow-md z-0 relative"
+              "w-full h-[600px] sm:h-[600px] md:h-[400px] xl:h-[500px]  2xl:h-[600px] rounded-lg shadow-md z-0 relative"
             }
           />
-          <div className="flex flex-col w-[80%] md:w-1/3 2xl:w-1/4 absolute right-[10%] xl:right-[32%] 2xl:right-[38%] bottom-0 md:bottom-[9%] lg:bottom-[20%] 2xl:bottom-[18%] z-10 bg-[#FAFAFA] rounded-lg shadow-md p-3">
+          <div className="flex flex-col w-[80%] md:w-1/3 lg:w-1/3 2xl:w-1/4 absolute right-[10%] md:right-[35%] xl:right-[34%] 2xl:right-[38%] bottom-14 md:bottom-[3%] lg:bottom-[5%] 2xl:bottom-[5%] z-10 bg-[#FAFAFA] rounded-lg shadow-md p-3">
             <div className="flex flex-col px-2">
               <p className="font-bold text-[#F4511E] text-base sm:text-md mb-3 sm:mb-6 md:mb-3">
                 CheckIn Now
