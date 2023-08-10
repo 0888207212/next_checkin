@@ -178,7 +178,7 @@ const CheckinManagement = () => {
         // Create a temporary anchor element to trigger the download
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Danh sách chấm công.xls"; // Change the filename as needed
+        a.download = "Attendances.xls"; // Change the filename as needed
         a.click();
 
         // Clean up the temporary objects
