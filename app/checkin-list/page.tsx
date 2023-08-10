@@ -9,6 +9,7 @@ import apiAttendences from "@/api/attendances";
 import TableAttendances from "@/components/table/Attendances";
 import { showToastMessage } from "@/utils/helper";
 import { useAppSelector } from "@/redux/store";
+import { countryZones } from "@/utils/contants";
 
 export type SortDate = "DESC" | "ASC";
 
@@ -122,10 +123,13 @@ const CheckinList = () => {
   };
 
   const handleExport = async () => {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const countryZone = countryZones.find((item) => item.value === timeZone);
     try {
       const payload: any = {
         time: filterMonth,
         user_id: [user.user?.id],
+        zone_name: countryZone?.name,
       };
       listFilterAttendances.forEach((item) => {
         payload[item.key] = item.isCheck;

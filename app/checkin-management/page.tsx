@@ -12,6 +12,7 @@ import OutsideClickHandler from "react-outside-click-handler";
 import { showToastMessage } from "@/utils/helper";
 import apiAuth from "@/api/auth";
 import { User } from "@/interfaces/user";
+import { countryZones } from "@/utils/contants";
 
 const { Option } = Select;
 
@@ -159,9 +160,12 @@ const CheckinManagement = () => {
   };
 
   const handleExport = async () => {
+    const timeZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    const countryZone = countryZones.find((item) => item.value === timeZone);
     try {
       const payload: any = {
         time: filterByMonth,
+        zone_name: countryZone?.name
       };
       if (userSelected.length > 0) {
         const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
