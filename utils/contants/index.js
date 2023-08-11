@@ -6,8 +6,12 @@ export const countryZones = [
     value: "Asia/Tokyo",
   },
   {
-    name: "Hanoi",
+    name: "Bangkok",
     value: "Asia/Bangkok",
+  },
+  {
+    name: "Hanoi",
+    value: "Asia/Saigon",
   },
   {
     name: "Central America",
