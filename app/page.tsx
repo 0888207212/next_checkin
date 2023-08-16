@@ -10,9 +10,6 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    if (user.user?.role === "Admin") {
-      return router.push("/checkin-management");
-    }
     return router.push("/checkin");
   }, []);
 }

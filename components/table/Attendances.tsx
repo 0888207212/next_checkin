@@ -207,7 +207,7 @@ const TableAttendances = (props: Props) => {
                     <td className="px-3 py-2 sm:px-6 sm:py-4 text-[#4d778f]">
                       {timeKeepingError(item) && (
                         <div
-                          className="flex gap-1 items-center"
+                          className="flex gap-1 items-center pr-3"
                           onClick={(event) => showExplanation(event, item)}
                         >
                           <Image
@@ -218,7 +218,7 @@ const TableAttendances = (props: Props) => {
                             className="w-4 h-4"
                           />
                           <span className="whitespace-nowrap text-[13px]">
-                            Cần giải trình
+                            Giải trình
                           </span>
                         </div>
                       )}
