@@ -21,6 +21,10 @@ const apiAttendences = {
     const url = `admin/attendances/checkin/${id}`;
     return axiosInstance.get(url);
   },
+  requestTimeUser(payload) {
+    const url = '/request_time';
+    return axiosInstance.post(url, payload);
+  }
 };
 
 export default apiAttendences;

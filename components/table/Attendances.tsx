@@ -1,11 +1,14 @@
 "use client";
 
-import dayjs from "dayjs";
+import { useState } from "react";
 import Image from "next/image";
+import dayjs from "dayjs";
 import { User } from "@/interfaces/user";
 import Pagination from "./Pagination";
 import Loading from "../loading";
 import { SortDate } from "@/app/checkin-list/page";
+import TableStatus from "./Status";
+import ModalExplanation from "../modal/Explanation";
 
 interface Props {
   attendances: AttendancesUser<User>[];
@@ -13,12 +16,13 @@ interface Props {
   totalPage: number;
   currentPage: number;
   sortDate: SortDate;
+  checkinListUser?: boolean;
   handleSortDate: () => void;
   changeCurrentPage: (currentPage: number) => void;
   handleDetailAttendances: (id: number) => void;
 }
 
-interface AttendancesUser<T> {
+export interface AttendancesUser<T> {
   check_in_lat?: string;
   check_in_lng?: string;
   check_in_location?: string;
@@ -33,7 +37,11 @@ interface AttendancesUser<T> {
   working_time?: string;
   cv_working_time: string;
   created_at: string;
+  status: number;
 }
+
+const CHECKIN_CHECKOUT = 1;
+const EIGHT_HOUR_TO_MINUTES = 8 * 60 * 60;
 
 const TableAttendances = (props: Props) => {
   const {
@@ -41,10 +49,15 @@ const TableAttendances = (props: Props) => {
     isLoading,
     totalPage,
     sortDate,
+    checkinListUser,
     handleSortDate,
     changeCurrentPage,
     handleDetailAttendances,
   } = props;
+
+  const [isShowModalExplanation, setIsShowModalExplanation] = useState(false);
+  const [attendaceSelected, setAttendaceSelected] =
+    useState<AttendancesUser<User> | null>(null);
 
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
@@ -54,6 +67,25 @@ const TableAttendances = (props: Props) => {
 
   const onHandleDetailAttendances = (id: number) => {
     handleDetailAttendances(id);
+  };
+
+  const showExplanation = (e: any, item: AttendancesUser<User>) => {
+    e.stopPropagation();
+    setIsShowModalExplanation(true);
+    setAttendaceSelected(item);
+  };
+
+  const handleCloseModal = () => {
+    setIsShowModalExplanation(false);
+    setAttendaceSelected(null);
+  };
+
+  const timeKeepingError = (item: AttendancesUser<User>): boolean => {
+    if (item.status !== CHECKIN_CHECKOUT) return true;
+
+    if (Number(item.working_time) < EIGHT_HOUR_TO_MINUTES) return true;
+
+    return false;
   };
 
   return (
@@ -122,6 +154,18 @@ const TableAttendances = (props: Props) => {
               >
                 Tổng giờ làm
               </th>
+              <th
+                scope="col"
+                className="px-3 py-3 sm:px-6 sm:py-3 w-[80px] whitespace-nowrap overflow-hidden text-ellipsis"
+              >
+                Trạng thái
+              </th>
+              {checkinListUser && (
+                <th
+                  scope="col"
+                  className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+                />
+              )}
             </tr>
           </thead>
           <tbody>
@@ -156,6 +200,30 @@ const TableAttendances = (props: Props) => {
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
                     {item.cv_working_time}
                   </td>
+                  <td className="px-3 py-2 sm:px-6 sm:py-4">
+                    {timeKeepingError(item) && <TableStatus />}
+                  </td>
+                  {checkinListUser && (
+                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-[#4d778f]">
+                      {timeKeepingError(item) && (
+                        <div
+                          className="flex gap-1 items-center"
+                          onClick={(event) => showExplanation(event, item)}
+                        >
+                          <Image
+                            src="/icon-edit1.png"
+                            alt="icon-edit"
+                            width="10"
+                            height="10"
+                            className="w-4 h-4"
+                          />
+                          <span className="whitespace-nowrap text-[13px]">
+                            Cần giải trình
+                          </span>
+                        </div>
+                      )}
+                    </td>
+                  )}
                 </tr>
               ))}
           </tbody>
@@ -163,6 +231,11 @@ const TableAttendances = (props: Props) => {
       </div>
       {isLoading && <Loading />}
       <Pagination totalPage={totalPage} changeCurrentPage={changeCurrentPage} />
+      <ModalExplanation
+        isShowModal={isShowModalExplanation}
+        attendaceSelected={attendaceSelected}
+        handleCloseModal={handleCloseModal}
+      />
     </>
   );
 };
