@@ -224,6 +224,7 @@ const CheckinList = () => {
         totalPage={totalPage}
         currentPage={currentPage}
         sortDate={sortDate}
+        checkinListUser
         handleSortDate={handleSortDate}
         changeCurrentPage={handleChangeCurrentPage}
         handleDetailAttendances={handleDetailAttendances}
