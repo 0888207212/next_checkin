@@ -11,6 +11,7 @@ import styles from "./styles.module.css";
 import apiAuth from "@/api/auth";
 import { logOut } from "@/redux/features/auth-slice";
 import { Dropdown, Navbar } from "flowbite-react";
+import avatar from "@/public/avatar.png";
 
 const Navigation = () => {
   const user = useAppSelector((state) => state.authReducer.value);
@@ -67,6 +68,10 @@ const Navigation = () => {
     }
   };
 
+  const onHandleShowUser = () => {
+    router.push("/user-detail");
+  };
+
   return (
     <Navbar fluid rounded>
       <Navbar.Toggle />
@@ -80,10 +85,7 @@ const Navigation = () => {
           inline
           label={
             <Image
-              src={
-                user.user?.avatar_url ||
-                "https://phongchongluadao.vn/images/avatar.png"
-              }
+              src={user.user?.avatar_url || `${avatar.src}`}
               alt="avatar-user"
               width="50"
               height="50"
@@ -92,8 +94,16 @@ const Navigation = () => {
           }
         >
           <Dropdown.Item>
-            <div className="max-md:hidden px-3 py-1">
+            <div className="px-3 py-1">
               <strong>{user.user?.full_name || "Nguyễn Văn A"}</strong>
+            </div>
+          </Dropdown.Item>
+          <Dropdown.Item>
+            <div
+              className="hover:bg-[#F5F5F5] px-3 py-1 cursor-pointer"
+              onClick={onHandleShowUser}
+            >
+              Thông tin hồ sơ
             </div>
           </Dropdown.Item>
           <Dropdown.Item>

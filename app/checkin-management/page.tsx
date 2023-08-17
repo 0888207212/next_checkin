@@ -165,7 +165,7 @@ const CheckinManagement = () => {
     try {
       const payload: any = {
         time: filterByMonth,
-        zone_name: countryZone?.name
+        zone_name: countryZone?.name,
       };
       if (userSelected.length > 0) {
         const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
@@ -182,7 +182,7 @@ const CheckinManagement = () => {
         // Create a temporary anchor element to trigger the download
         const a = document.createElement("a");
         a.href = url;
-        a.download = "Attendances.xls"; // Change the filename as needed
+        a.download = "Timesheets.xls"; // Change the filename as needed
         a.click();
 
         // Clean up the temporary objects

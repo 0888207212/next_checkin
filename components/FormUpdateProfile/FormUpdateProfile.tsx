@@ -7,8 +7,10 @@ import * as yup from "yup";
 import apiCompleteProfile from "@/api/complete-profile";
 import { Department, Departments } from "@/interfaces/profile";
 import Loading from "@/components/loading/index";
+import { useAppSelector } from "@/redux/store";
 
 interface FormData {
+  full_name: string;
   code: number;
   department_id: number;
   center: string;
@@ -22,19 +24,30 @@ interface PropsSubmit {
   handleForm: (value: any) => void;
 }
 
-export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
+export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
+  const user = useAppSelector((state) => state.authReducer.value);
+  const [disabled, setDisabled] = useState(true);
   const [optionDepartment, setOptionDepartment] = useState<ValueDepartment[]>(
     []
   );
   const [isLoading, setIsLoading] = useState(false);
 
   const schema = yup
-    .object({
-      code: yup.number().min(4).positive().integer().required(),
-      department_id: yup.number().positive().integer().required(),
+    .object()
+    .shape({
+      full_name: yup
+        .string()
+        .min(10, "Họ và tên phải lớn hơn 10 kí tự")
+        .required(),
+      code: yup
+        .number()
+        .min(2, "Center phải lớn hơn 4 kí tự")
+        .integer("Center phải là số nguyên")
+        .required(),
+      department_id: yup.number().integer().required(),
       center: yup.string().required(),
     })
-    .required();
+    .required("Không được để trống");
 
   const {
     register,
@@ -47,8 +60,16 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
 
   useEffect(() => {
     getDepartment();
-    setValue("department_id", 1);
   }, []);
+
+  useEffect(() => {
+    if (user && user?.user) {
+      setValue("full_name", String(user?.user?.full_name));
+      setValue("code", Number(user?.user?.code));
+      setValue("department_id", Number(user?.user?.department_id));
+      setValue("center", String(user?.user?.center));
+    }
+  }, [user]);
 
   const onSubmit = (data: FormData) => {
     handleForm(data);
@@ -78,14 +99,51 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
     setOptionDepartment(result);
   };
 
+  const handleOnChangeName = (e: any) => {
+    if (user?.user?.full_name !== e.target.value) {
+      setDisabled(false);
+    } else return setDisabled(true);
+  };
+
+  const handleOnChangeId = (e: any) => {
+    if (user?.user?.code !== e.target.value) {
+      setDisabled(false);
+    } else return setDisabled(true);
+  };
+
+  const handleOnChangeCenter = (e: any) => {
+    if (user?.user?.center !== e.target.value) {
+      setDisabled(false);
+    } else return setDisabled(true);
+  };
+
+  const handleOnChangeDepartment = (e: any) => {
+    if (Number(user?.user?.department_id) !== Number(e.target.value)) {
+      setDisabled(false);
+    } else return setDisabled(true);
+  };
+
   return (
     <div>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col pb-12 pt-8 px-5 sm:px-10 border rounded-lg bg-[#FAFAFA] w-[380px] sm:w-[460px] mx-auto max-w-screen-xl shadow-lg"
+        className="flex flex-col pb-12 pt-8 px-5 sm:px-10 border rounded-lg bg-[#FAFAFA] w-[380px] sm:w-[460px] mx-auto my-10 sm:my-16 max-w-screen-xl shadow-lg"
       >
         <div className="flex justify-start text-[#00C853] font-bold text-xl sm:text-xl mb-8">
-          COMPLETE PROFILE
+          UPDATE PROFILE
+        </div>
+        <div className="flex flex-col mb-4 sm:mb-8">
+          <label className="text-sm sm:text-md font-bold">Họ và tên</label>
+          <input
+            className="outline-none p-2 sm:p-2 border mt-2 text-sm sm:text-md"
+            type="string"
+            placeholder="Họ và tên"
+            {...register("full_name")}
+            onChange={handleOnChangeName}
+          />
+          {errors.code && (
+            <span className="text-[red]">{errors.full_name?.message}</span>
+          )}
         </div>
         <div className="flex flex-col mb-4 sm:mb-8">
           <label className="text-sm sm:text-md font-bold">ID nhân viên</label>
@@ -94,6 +152,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
             type="number"
             placeholder="ID nhân viên"
             {...register("code")}
+            onChange={handleOnChangeId}
           />
           {errors.code && (
             <span className="text-[red]">{errors.code?.message}</span>
@@ -106,8 +165,11 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
           <select
             {...register("department_id")}
             className="outline-none p-2 border mt-2"
+            onChange={handleOnChangeDepartment}
           >
-            {Array.isArray(optionDepartment) &&
+            {optionDepartment &&
+              optionDepartment.length &&
+              Array.isArray(optionDepartment) &&
               optionDepartment.map((value, index) => {
                 return (
                   <option value={value?.value} key={index}>
@@ -127,6 +189,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
           <select
             {...register("center")}
             className="outline-none p-2 border mt-2"
+            onChange={handleOnChangeCenter}
           >
             <option value="DU10">DU10</option>
             <option value="DU11">DU11</option>
@@ -140,7 +203,10 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
         </div>
         <input
           type="submit"
-          className="p-2 border text-[white] bg-[#66a166] hover:bg-[green] cursor-pointer"
+          className={`p-2 border text-[white] bg-[#66a166]  ${
+            disabled ? "cursor-not-allowed" : "hover:bg-[green] cursor-pointer"
+          }`}
+          disabled={disabled}
         />
       </form>
       {isLoading && <Loading />}
