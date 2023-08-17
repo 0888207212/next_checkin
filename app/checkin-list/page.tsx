@@ -23,6 +23,7 @@ const CheckinList = () => {
   const [sortDate, setSortDate] = useState<SortDate>("DESC");
   const [isLoading, setIsLoading] = useState(false);
   const [showPopupFilter, setShowFilter] = useState(false);
+  const [confirmExplanation, setConfirmExplanation] = useState(0);
   const [listFilterAttendances, setListFilterAttendances] = useState([
     {
       text: "Không check out",
@@ -56,7 +57,13 @@ const CheckinList = () => {
 
   useEffect(() => {
     getListAttendencesUser();
-  }, [filterMonth, currentPage, sortDate, listFilterAttendances]);
+  }, [
+    filterMonth,
+    currentPage,
+    sortDate,
+    listFilterAttendances,
+    confirmExplanation,
+  ]);
 
   const getListFilterAttendences = useMemo(() => {
     const result: number[] = [];
@@ -116,6 +123,10 @@ const CheckinList = () => {
     cloneListFilterAttendances[index].isCheck =
       !cloneListFilterAttendances[index].isCheck;
     setListFilterAttendances(cloneListFilterAttendances);
+  };
+
+  const handleExplanation = () => {
+    setConfirmExplanation(Math.random());
   };
 
   const handleDetailAttendances = (id: number) => {
@@ -228,6 +239,7 @@ const CheckinList = () => {
         handleSortDate={handleSortDate}
         changeCurrentPage={handleChangeCurrentPage}
         handleDetailAttendances={handleDetailAttendances}
+        handleExplanation={handleExplanation}
       />
     </div>
   );

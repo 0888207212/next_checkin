@@ -20,6 +20,7 @@ interface Props {
   handleSortDate: () => void;
   changeCurrentPage: (currentPage: number) => void;
   handleDetailAttendances: (id: number) => void;
+  handleExplanation?: () => void;
 }
 
 export interface AttendancesUser<T> {
@@ -38,10 +39,35 @@ export interface AttendancesUser<T> {
   cv_working_time: string;
   created_at: string;
   status: number;
+  request_time_status: number;
 }
 
 const CHECKIN_CHECKOUT = 1;
 const EIGHT_HOUR_TO_MINUTES = 8 * 60 * 60;
+
+interface RequestTimeStatus {
+  value: number;
+  text: string;
+  bgColor: string;
+}
+
+const REQUEST_TIME_STATUS: RequestTimeStatus[] = [
+  {
+    value: 1,
+    text: "Chờ phê duyệt",
+    bgColor: "bg-[#e28743]",
+  },
+  {
+    value: 2,
+    text: "Đã phê duyệt",
+    bgColor: "bg-[#28a74580]",
+  },
+  {
+    value: 3,
+    text: "Đã từ chối",
+    bgColor: "bg-[#D40e3f]",
+  },
+];
 
 const TableAttendances = (props: Props) => {
   const {
@@ -53,6 +79,7 @@ const TableAttendances = (props: Props) => {
     handleSortDate,
     changeCurrentPage,
     handleDetailAttendances,
+    handleExplanation,
   } = props;
 
   const [isShowModalExplanation, setIsShowModalExplanation] = useState(false);
@@ -86,6 +113,18 @@ const TableAttendances = (props: Props) => {
     if (Number(item.working_time) < EIGHT_HOUR_TO_MINUTES) return true;
 
     return false;
+  };
+
+  const requestTimeStatus = (
+    item: AttendancesUser<User>
+  ): RequestTimeStatus | null => {
+    const requestTime = REQUEST_TIME_STATUS.find(
+      (rqTime) => rqTime.value === item.request_time_status
+    );
+    if (!requestTime && timeKeepingError(item)) {
+      return { value: 0, text: "Cần giải trình", bgColor: "bg-[#dc354580]" };
+    }
+    return requestTime || null;
   };
 
   return (
@@ -201,11 +240,11 @@ const TableAttendances = (props: Props) => {
                     {item.cv_working_time}
                   </td>
                   <td className="px-3 py-2 sm:px-6 sm:py-4">
-                    {timeKeepingError(item) && <TableStatus />}
+                    <TableStatus requestTimeStatus={requestTimeStatus(item)} />
                   </td>
                   {checkinListUser && (
                     <td className="px-3 py-2 sm:px-6 sm:py-4 text-[#4d778f]">
-                      {timeKeepingError(item) && (
+                      {requestTimeStatus(item)?.value === 0 && (
                         <div
                           className="flex gap-1 items-center pr-3"
                           onClick={(event) => showExplanation(event, item)}
@@ -235,6 +274,7 @@ const TableAttendances = (props: Props) => {
         isShowModal={isShowModalExplanation}
         attendaceSelected={attendaceSelected}
         handleCloseModal={handleCloseModal}
+        handleExplanation={handleExplanation}
       />
     </>
   );

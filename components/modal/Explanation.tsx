@@ -10,6 +10,7 @@ interface Props {
   isShowModal: boolean;
   attendaceSelected?: AttendancesUser<User> | null;
   handleCloseModal: () => void;
+  handleExplanation?: () => void;
 }
 
 const OPTIONS_REQUEST_TIME = [
@@ -34,6 +35,7 @@ const ModalExplanation = ({
   isShowModal,
   attendaceSelected,
   handleCloseModal,
+  handleExplanation,
 }: Props) => {
   const [explanationSelected, setExplanationSelected] = useState(
     () => OPTIONS_REQUEST_TIME.find((item) => item.selected)?.value
@@ -74,6 +76,7 @@ const ModalExplanation = ({
           () => OPTIONS_REQUEST_TIME.find((item) => item.selected)?.value
         );
         showToastMessage("Gửi yêu cầu thành công!", "success");
+        handleExplanation && handleExplanation();
       }
     } catch (error) {
       setIsLoading(false);

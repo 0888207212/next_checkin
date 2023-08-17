@@ -1,13 +1,24 @@
-interface Props {
-  text?: string;
-  classColor?: string;
+interface RequestTimeStatus {
+  value: number;
+  text: string;
+  bgColor: string;
 }
 
-const TableStatus = ({ text, classColor }: Props) => {
+interface Props {
+  requestTimeStatus: RequestTimeStatus | null;
+}
+
+const TableStatus = ({ requestTimeStatus }: Props) => {
   return (
-    <span className="py-1 px-2 bg-[#dc354580] rounded-xl text-xs text-[#333333] max-w-max font-medium whitespace-nowrap">
-      Cần giải trình
-    </span>
+    <>
+      {requestTimeStatus?.text && (
+        <span
+          className={`py-1 px-2 ${requestTimeStatus?.bgColor} rounded-xl text-xs text-[#333333] max-w-max font-medium whitespace-nowrap`}
+        >
+          {requestTimeStatus?.text}
+        </span>
+      )}
+    </>
   );
 };
 
