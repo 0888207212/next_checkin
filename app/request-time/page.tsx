@@ -136,7 +136,7 @@ const RequestTime = () => {
       };
       if (userSelected.length > 0) {
         const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
-        params.user_id = userIds.toString();
+        params.user_ids = userIds.toString();
       }
       if (getListFilterRequestTimes.length > 0) {
         params.request_type = getListFilterRequestTimes.toString();
@@ -149,7 +149,6 @@ const RequestTime = () => {
       if (response.status === 200) {
         setRequestTimes(response.data.request_times || []);
         setTotalPage(response.data.meta.total_pages || 1);
-        console.log("totalPage", response.data);
       }
     } catch (error: any) {
       console.log("error", error.response);

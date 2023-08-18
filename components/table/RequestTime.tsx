@@ -6,6 +6,7 @@ import dayjs from "dayjs";
 import { User } from "@/interfaces/user";
 import Pagination from "./Pagination";
 import Loading from "../loading";
+import TableStatus from "./Status";
 import { SortDate } from "@/app/checkin-list/page";
 import { STATUS } from "@/utils/contants/index";
 import apiAttendences from "@/api/attendances";
@@ -35,6 +36,30 @@ export interface RequestTimes<T> {
   created_at: string;
   user: T;
 }
+
+interface RequestTimeStatus {
+  value: number;
+  text: string;
+  bgColor: string;
+}
+
+const REQUEST_TIME_STATUS: RequestTimeStatus[] = [
+  {
+    value: 1,
+    text: "Chờ phê duyệt",
+    bgColor: "bg-[#e28743]",
+  },
+  {
+    value: 2,
+    text: "Đã phê duyệt",
+    bgColor: "bg-[#28a74580]",
+  },
+  {
+    value: 3,
+    text: "Đã từ chối",
+    bgColor: "bg-[#F4365A]",
+  },
+];
 
 const TableRequestTime = (props: Props) => {
   const {
@@ -81,6 +106,15 @@ const TableRequestTime = (props: Props) => {
     } else {
       return "Rejected";
     }
+  };
+
+  const requestTimeStatus = (
+    item: RequestTimes<User>
+  ): RequestTimeStatus | null => {
+    const requestTime = REQUEST_TIME_STATUS.find(
+      (rqTime) => rqTime.value === item.status
+    );
+    return requestTime || null;
   };
 
   const handleBack = () => {
@@ -197,16 +231,10 @@ const TableRequestTime = (props: Props) => {
                     <td className="px-3 py-2 sm:px-6 sm:py-4">
                       {handleRequestTime(item.request_type)}
                     </td>
-                    <td
-                      className={`x-3 py-2 sm:px-6 sm:py-4 font-bold ${
-                        item.status === 1
-                          ? "text-[#FFC107]"
-                          : item.status === 2
-                          ? "text-[#00C853]"
-                          : "text-[#D32F2F]"
-                      }`}
-                    >
-                      {handleRequestStatus(item.status)}
+                    <td className="px-3 py-2 sm:px-6 sm:py-4">
+                      <TableStatus
+                        requestTimeStatus={requestTimeStatus(item)}
+                      />
                     </td>
                   </tr>
                 ))}

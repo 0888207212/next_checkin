@@ -67,7 +67,7 @@ const REQUEST_TIME_STATUS: RequestTimeStatus[] = [
   {
     value: 3,
     text: "Đã từ chối",
-    bgColor: "bg-[#D40e3f]",
+    bgColor: "bg-[#F4365A]",
   },
 ];
 
@@ -287,21 +287,21 @@ const TableAttendances = (props: Props) => {
                   )}
                   {checkinListUser && (
                     <td className="px-3 py-2 sm:px-6 sm:py-4 text-[#4d778f]">
-                        <div
-                          className="flex gap-1 items-center pr-3"
-                          onClick={(event) => showNote(event, item)}
-                        >
-                          <Image
-                            src="/icon-edit1.png"
-                            alt="icon-edit"
-                            width="10"
-                            height="10"
-                            className="w-4 h-4"
-                          />
-                          <span className="whitespace-nowrap text-[13px]">
-                            Note
-                          </span>
-                        </div>
+                      <div
+                        className="flex gap-1 items-center pr-3"
+                        onClick={(event) => showNote(event, item)}
+                      >
+                        <Image
+                          src="/icon-edit1.png"
+                          alt="icon-edit"
+                          width="10"
+                          height="10"
+                          className="w-4 h-4"
+                        />
+                        <span className="whitespace-nowrap text-[13px]">
+                          Note
+                        </span>
+                      </div>
                     </td>
                   )}
                 </tr>
@@ -317,11 +317,11 @@ const TableAttendances = (props: Props) => {
         handleCloseModal={handleCloseModal}
         handleExplanation={handleExplanation}
       />
-      <ModalNote 
-          isShowModal={isShowModalNote}
-          attendaceSelected={attendaceSelected}
-          handleCloseModal={handleCloseModal}
-          handleNote={handleNote}
+      <ModalNote
+        isShowModal={isShowModalNote}
+        attendaceSelected={attendaceSelected}
+        handleCloseModal={handleCloseModal}
+        handleNote={handleNote}
       />
     </>
   );

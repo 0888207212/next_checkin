@@ -35,13 +35,15 @@ const ModalNote = ({
     if (!explanationContent) return setErrorMes("Bạn chưa điền đủ thông tin");
     setErrorMes("");
 
-    const id: number = 1
     const payload: any = {
       note: explanationContent,
     };
     try {
       setIsLoading(true);
-      const res = await apiAttendences.explainPosition(id, payload);
+      const res = await apiAttendences.explainPosition(
+        attendaceSelected?.id,
+        payload
+      );
       if (res.status === 200) {
         setIsLoading(false);
         handleCloseModal();
