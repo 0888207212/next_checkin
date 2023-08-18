@@ -22,9 +22,17 @@ const apiAttendences = {
     return axiosInstance.get(url);
   },
   requestTimeUser(payload) {
-    const url = '/request_time';
+    const url = "/request_time";
     return axiosInstance.post(url, payload);
-  }
+  },
+  getRequestTimeUser(params) {
+    const url = "/request_time";
+    return axiosInstance.get(url, { params });
+  },
+  putRequestTime(id, payload) {
+    const url = `/request_time/change-status/${id}`;
+    return axiosInstance.put(url, payload);
+  },
 };
 
 export default apiAttendences;
