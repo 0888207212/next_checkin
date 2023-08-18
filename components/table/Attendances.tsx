@@ -9,6 +9,7 @@ import Loading from "../loading";
 import { SortDate } from "@/app/checkin-list/page";
 import TableStatus from "./Status";
 import ModalExplanation from "../modal/Explanation";
+import ModalNote from "../modal/Note";
 
 interface Props {
   attendances: AttendancesUser<User>[];
@@ -21,6 +22,7 @@ interface Props {
   changeCurrentPage: (currentPage: number) => void;
   handleDetailAttendances: (id: number) => void;
   handleExplanation?: () => void;
+  handleNote?: () => void;
 }
 
 export interface AttendancesUser<T> {
@@ -80,9 +82,12 @@ const TableAttendances = (props: Props) => {
     changeCurrentPage,
     handleDetailAttendances,
     handleExplanation,
+    handleNote,
   } = props;
 
   const [isShowModalExplanation, setIsShowModalExplanation] = useState(false);
+  const [isShowModalNote, setIsShowModalNote] = useState(false);
+
   const [attendaceSelected, setAttendaceSelected] =
     useState<AttendancesUser<User> | null>(null);
 
@@ -102,8 +107,15 @@ const TableAttendances = (props: Props) => {
     setAttendaceSelected(item);
   };
 
+  const showNote = (e: any, item: AttendancesUser<User>) => {
+    e.stopPropagation();
+    setIsShowModalNote(true);
+    setAttendaceSelected(item);
+  };
+
   const handleCloseModal = () => {
     setIsShowModalExplanation(false);
+    setIsShowModalNote(false);
     setAttendaceSelected(null);
   };
 
@@ -203,7 +215,17 @@ const TableAttendances = (props: Props) => {
                 <th
                   scope="col"
                   className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
-                />
+                >
+                  Explanation
+                </th>
+              )}
+              {checkinListUser && (
+                <th
+                  scope="col"
+                  className="px-3 py-3 sm:px-6 sm:py-3 w-[100px] whitespace-nowrap overflow-hidden text-ellipsis"
+                >
+                  Note
+                </th>
               )}
             </tr>
           </thead>
@@ -263,6 +285,25 @@ const TableAttendances = (props: Props) => {
                       )}
                     </td>
                   )}
+                  {checkinListUser && (
+                    <td className="px-3 py-2 sm:px-6 sm:py-4 text-[#4d778f]">
+                        <div
+                          className="flex gap-1 items-center pr-3"
+                          onClick={(event) => showNote(event, item)}
+                        >
+                          <Image
+                            src="/icon-edit1.png"
+                            alt="icon-edit"
+                            width="10"
+                            height="10"
+                            className="w-4 h-4"
+                          />
+                          <span className="whitespace-nowrap text-[13px]">
+                            Note
+                          </span>
+                        </div>
+                    </td>
+                  )}
                 </tr>
               ))}
           </tbody>
@@ -275,6 +316,12 @@ const TableAttendances = (props: Props) => {
         attendaceSelected={attendaceSelected}
         handleCloseModal={handleCloseModal}
         handleExplanation={handleExplanation}
+      />
+      <ModalNote 
+          isShowModal={isShowModalNote}
+          attendaceSelected={attendaceSelected}
+          handleCloseModal={handleCloseModal}
+          handleNote={handleNote}
       />
     </>
   );
