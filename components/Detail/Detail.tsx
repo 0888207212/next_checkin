@@ -103,6 +103,14 @@ const Detail = ({ userAttendance, backRouter }: any) => {
                       {userAttendance?.check_out_location || ""}
                     </td>
                   </tr>
+                  <tr className="flex flex-row">
+                    <td className=" whitespace-nowrap flex items-start px-3 sm:px-6 py-4 font-medium float-left w-[100px] sm:w-[150px]">
+                      Note
+                    </td>
+                    <td className=" px-6 py-4 float-left font-normal">
+                      {userAttendance?.note || ""}
+                    </td>
+                  </tr>
                 </tbody>
               </table>
             </div>
