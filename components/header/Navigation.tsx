@@ -32,6 +32,11 @@ const Navigation = () => {
       url: "/checkin-management",
       role: "Admin",
     },
+    {
+      label: "Giải trình",
+      url: "/request-time",
+      role: "Admin",
+    },
   ]);
 
   const dispatch = useDispatch<AppDispatch>();

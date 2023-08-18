@@ -18,3 +18,9 @@ export const countryZones = [
     value: "America/Guatemala",
   },
 ];
+
+export const STATUS = {
+  pending: 1,
+  approved: 2,
+  rejected: 3,
+};
