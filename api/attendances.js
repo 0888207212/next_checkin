@@ -33,6 +33,10 @@ const apiAttendences = {
     const url = `/request_time/change-status/${id}`;
     return axiosInstance.put(url, payload);
   },
+  explainPosition(id, payload) {
+    const url = `/explain-position/${id}`;
+    return axiosInstance.put(url, payload);
+  }
 };
 
 export default apiAttendences;
