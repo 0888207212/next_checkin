@@ -8,6 +8,7 @@ import apiCompleteProfile from "@/api/complete-profile";
 import { Department, Departments } from "@/interfaces/profile";
 import Loading from "@/components/loading/index";
 import { useAppSelector } from "@/redux/store";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   full_name: string;
@@ -31,6 +32,7 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
     []
   );
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const schema = yup
     .object()
@@ -123,12 +125,35 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
     } else return setDisabled(true);
   };
 
+  const cancelForm = (e: any) => {
+    e.preventDefault();
+    router.push(`/user-detail`);
+  };
+
   return (
     <div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((e) => onSubmit(e))}
         className="flex flex-col pb-12 pt-8 px-5 sm:px-10 border rounded-lg bg-[#FAFAFA] w-[380px] sm:w-[460px] mx-auto my-10 sm:my-16 max-w-screen-xl shadow-lg"
       >
+        <div className="flex w-full justify-end">
+          <button onClick={cancelForm}>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth="1.5"
+              stroke="currentColor"
+              className="w-6 h-6"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
         <div className="flex justify-start text-[#00C853] font-bold text-xl sm:text-xl mb-8">
           UPDATE PROFILE
         </div>

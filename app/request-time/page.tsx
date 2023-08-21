@@ -58,19 +58,19 @@ const RequestTime = () => {
 
   const [listFilterRequestStatus, setListFilterRequestStatus] = useState([
     {
-      text: "Pending",
+      text: "Chờ phê duyệt",
       value: 1,
       key: "request_pending",
       isCheck: false,
     },
     {
-      text: "Approved",
+      text: "Đã phê duyệt",
       value: 2,
       key: "request_approved",
       isCheck: false,
     },
     {
-      text: "Rejected",
+      text: "Đã từ chối",
       value: 3,
       key: "request_rejected",
       isCheck: false,
@@ -247,7 +247,13 @@ const RequestTime = () => {
             ))}
           </Select>
           <div className="flex items-center justify-between flex-1 mt-4 sm:gap-5 sm:mt-0">
-            <div className="flex items-center gap-1 sm:gap-10">
+            <div className="flex items-center gap-2 sm:gap-10 justify-between">
+              <input
+                type="month"
+                className="w-[115px] sm:w-full border border-[rgb(107,114,128)] py-1 rounded-md h-10 filter-attendances"
+                value={filterByMonth}
+                onChange={onHandleChangeMonth}
+              />
               <OutsideClickHandler onOutsideClick={() => setShowFilter(false)}>
                 <div className="relative">
                   <button
@@ -262,7 +268,7 @@ const RequestTime = () => {
                         {listFilterRequestTimes.map((item, index) => (
                           <>
                             <li
-                              className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] w-[250px] ${
+                              className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] w-[200px] sm:w-[250px] ${
                                 item.isCheck
                                   ? "text-[#333232] font-bold "
                                   : "text-[#4c4c4c]"
@@ -303,12 +309,12 @@ const RequestTime = () => {
                     Trạng thái
                   </button>
                   {showPopupStatus && (
-                    <div className="absolute top-full z-30 bg-white dropdown-menu-filter min-w-[120px] mt-1 rounded-lg">
+                    <div className="absolute top-full left-[-99px] md:left-[-150px] xl:left-0 z-30 bg-white dropdown-menu-filter min-w-[120px] mt-1 rounded-lg">
                       <ul className="py-1">
                         {listFilterRequestStatus.map((item, index) => (
                           <>
                             <li
-                              className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[20px] w-[150px] ${
+                              className={`flex items-center gap-3 hover:bg-[#e9ecef] cursor-pointer py-[3px] px-[10px] sm:px-[20px] w-[200px] sm:w-[250px] ${
                                 item.isCheck
                                   ? "text-[#333232] font-bold "
                                   : "text-[#4c4c4c]"
@@ -338,12 +344,6 @@ const RequestTime = () => {
                   )}
                 </div>
               </OutsideClickHandler>
-              <input
-                type="month"
-                className="w-[150px] sm:w-full border border-[rgb(107,114,128)] py-1 rounded-md h-10 filter-attendances"
-                value={filterByMonth}
-                onChange={onHandleChangeMonth}
-              />
             </div>
           </div>
         </div>

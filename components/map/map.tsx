@@ -26,7 +26,7 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
       {lat && lng && (
         <MapContainer
           className={style}
-          center={{ lat: Number(lat), lng: Number(lng) }}
+          center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
           zoom={100}
           // style={style}
         >
@@ -36,7 +36,7 @@ const Map = ({ iconSize, lat, lng, style }: PropsMap) => {
           />
           <FullscreenControl />
           <Marker
-            position={{ lat: Number(lat), lng: Number(lng) }}
+            position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
             icon={GetIcon(iconSize)}
           >
             <Popup>Vị trí hiện tại của bạn</Popup>
