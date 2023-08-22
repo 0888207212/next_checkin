@@ -100,11 +100,11 @@ const TableRequestTime = (props: Props) => {
 
   const handleRequestStatus = (status: number) => {
     if (status === STATUS.pending) {
-      return "Pending";
+      return "Chờ phê duyệt";
     } else if (status === STATUS.approved) {
-      return "Approved";
+      return "Đã phê duyệt";
     } else {
-      return "Rejected";
+      return "Đã từ chối";
     }
   };
 
@@ -244,7 +244,7 @@ const TableRequestTime = (props: Props) => {
       )}
 
       {showDetail && userDetail && (
-        <div className="2xl:min-h-[700px] 2xl:max-h-[700px] 2xl:mt-10">
+        <div className="2xl:min-h-[700px] 2xl:max-h-[700px] 2xl:mt-10 mb-20 sm:mb-0">
           <div className="flex flex-row items-center">
             <button
               className="flex items-center justify-center border rounded w-[50px] my-4 p-1 shadow-sm text-[#757575]  bg-[#ECEFF1] transition duration-200 hover:bg-[#CFD8DC] active:bg-[#CFD8DC] dark:text-white"
