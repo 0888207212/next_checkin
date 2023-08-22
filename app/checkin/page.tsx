@@ -13,6 +13,7 @@ import { showToastMessage } from "@/utils/helper/index";
 import apiLocation from "@/api/geo-location";
 import Loading from "@/components/loading/index";
 import Link from "next/link";
+import GoogleMaps from "@/components/GoogleMap/GoogleMap";
 
 const Map = dynamic(() => import("@/components/map/map"), { ssr: false });
 
@@ -88,8 +89,7 @@ const Checkin = () => {
     <div className="relative 2xl:min-h-[735px] max-h-full overflow-auto pt-8 pb-20 sm:py-12  dark:bg-gray-800 flex items-center">
       <div className="container mx-4 sm:mx-auto flex flex-row max-sm:flex-col justify-between items-start z-0">
         <div className="w-full mb-4 sm:w-full sm:mx-3">
-          <Map
-            iconSize={40}
+          <GoogleMaps
             lat={location ? location?.lat : ""}
             lng={location ? location?.lon : ""}
             style={
