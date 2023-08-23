@@ -1,8 +1,17 @@
 import { UserDetail } from "@/interfaces/user";
 import dayjs from "dayjs";
 import { useRouter } from "next/navigation";
+import GoogleMaps from "@/components/GoogleMap/GoogleMap";
+import { useLocation } from "@/hook/useLocation";
+import { GetAllLocation } from "@/interfaces/location";
+import Loading from "@/components/loading/index";
+import { useEffect, useState } from "react";
+import apiLocation from "@/api/geo-location";
 
 const Detail = ({ userAttendance, backRouter }: any) => {
+  const { lat, lng } = useLocation();
+  const [location, setLocation] = useState<GetAllLocation>();
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
 
   const convertDateTime = (date?: string, format?: string) => {
@@ -12,6 +21,30 @@ const Detail = ({ userAttendance, backRouter }: any) => {
   };
   const handleBackCheckin = () => {
     return router.push(backRouter);
+  };
+
+  useEffect(() => {
+    if (lat && lng) {
+      getLocation();
+    }
+  }, [lat, lng]);
+
+  const getLocation = async () => {
+    const coordinates = {
+      lat: lat,
+      lng: lng,
+    };
+    try {
+      setIsLoading(true);
+      const res = await apiLocation.getLocation(coordinates);
+      if (res.status === 200) {
+        setLocation(res.data);
+      }
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -41,6 +74,15 @@ const Detail = ({ userAttendance, backRouter }: any) => {
           "DD/MM/YYYY"
         )} - ${userAttendance?.user?.full_name}`}</span>
       </div>
+
+      <GoogleMaps
+        lat={location ? location?.lat : ""}
+        lng={location ? location?.lon : ""}
+        style={
+          "w-full h-[600px] sm:h-[600px] md:h-[400px] xl:h-[500px]  2xl:h-[600px] rounded-lg shadow-md z-0 relative mb-4 sm:mb-5"
+        }
+      />
+
       <div className="flex flex-col border rounded-md shadow-md">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -117,6 +159,7 @@ const Detail = ({ userAttendance, backRouter }: any) => {
           </div>
         </div>
       </div>
+      {isLoading && <Loading />}
     </div>
   );
 };

@@ -15,7 +15,7 @@ import Loading from "@/components/loading/index";
 import Link from "next/link";
 import GoogleMaps from "@/components/GoogleMap/GoogleMap";
 
-const Map = dynamic(() => import("@/components/map/map"), { ssr: false });
+// const Map = dynamic(() => import("@/components/map/map"), { ssr: false });
 
 const Checkin = () => {
   const { lat, lng } = useLocation();
