@@ -76,8 +76,12 @@ const Detail = ({ userAttendance, backRouter }: any) => {
       </div>
 
       <GoogleMaps
-        lat={location ? location?.lat : ""}
-        lng={location ? location?.lon : ""}
+        lat={userAttendance ? userAttendance?.check_in_lat : ""}
+        lng={userAttendance ? userAttendance?.check_in_lng : ""}
+        info={userAttendance ? userAttendance?.check_in_location : ""}
+        checkoutLat={userAttendance ? userAttendance?.check_out_lat : ""}
+        checkoutLng={userAttendance ? userAttendance?.check_out_lng : ""}
+        checkoutInfo={userAttendance ? userAttendance?.check_out_location : ""}
         style={
           "w-full h-[600px] sm:h-[600px] md:h-[400px] xl:h-[500px]  2xl:h-[600px] rounded-lg shadow-md z-0 relative mb-4 sm:mb-5"
         }

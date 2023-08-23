@@ -40,11 +40,12 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
       full_name: yup
         .string()
         .min(10, "Họ và tên phải lớn hơn 10 kí tự")
+        .max(30, "Họ và tên phải nhỏ hơn 30 kí tự")
         .required(),
       code: yup
         .number()
-        .min(2, "Center phải lớn hơn 4 kí tự")
-        .integer("Center phải là số nguyên")
+        .min(2, "Code phải lớn hơn 4 kí tự")
+        .integer("Code phải là số nguyên")
         .required(),
       department_id: yup.number().integer().required(),
       center: yup.string().required(),
@@ -71,7 +72,7 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
       setValue("department_id", Number(user?.user?.department_id));
       setValue("center", String(user?.user?.center));
     }
-  }, [user]);
+  }, [user, optionDepartment]);
 
   const onSubmit = (data: FormData) => {
     handleForm(data);
@@ -161,12 +162,12 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
           <label className="text-sm sm:text-md font-bold">Họ và tên</label>
           <input
             className="outline-none p-2 sm:p-2 border mt-2 text-sm sm:text-md"
-            type="string"
+            type="text"
             placeholder="Họ và tên"
             {...register("full_name")}
             onChange={handleOnChangeName}
           />
-          {errors.code && (
+          {errors.full_name && (
             <span className="text-[red]">{errors.full_name?.message}</span>
           )}
         </div>
@@ -184,9 +185,7 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
           )}
         </div>
         <div className="flex flex-col mb-4 sm:mb-8">
-          <label className="text-sm sm:text-md font-bold">
-            Tòa nhà làm việc
-          </label>
+          <label className="text-sm sm:text-md font-bold">Nơi làm việc</label>
           <select
             {...register("department_id")}
             className="outline-none p-2 border mt-2"

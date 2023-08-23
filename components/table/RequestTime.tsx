@@ -11,10 +11,6 @@ import { SortDate } from "@/app/checkin-list/page";
 import { STATUS } from "@/utils/contants/index";
 import apiAttendences from "@/api/attendances";
 import { showToastMessage } from "@/utils/helper/index";
-import GoogleMaps from "@/components/GoogleMap/GoogleMap";
-import { useLocation } from "@/hook/useLocation";
-import { GetAllLocation } from "@/interfaces/location";
-import apiLocation from "@/api/geo-location";
 
 interface Props {
   requestTimes: RequestTimes<User>[];
@@ -80,36 +76,10 @@ const TableRequestTime = (props: Props) => {
   const [showDetail, setShowDetail] = useState(false);
   const [userDetail, setUserDetail] = useState<RequestTimes<User>>();
   const [loading, setLoading] = useState(false);
-  const { lat, lng } = useLocation();
-  const [location, setLocation] = useState<GetAllLocation>();
   const convertDateTime = (date?: string, format?: string) => {
     if (!date) return "";
 
     return dayjs(date).format(format || "HH:mm:ss");
-  };
-
-  useEffect(() => {
-    if (lat && lng) {
-      getLocation();
-    }
-  }, [lat, lng]);
-
-  const getLocation = async () => {
-    const coordinates = {
-      lat: lat,
-      lng: lng,
-    };
-    try {
-      setLoading(true);
-      const res = await apiLocation.getLocation(coordinates);
-      if (res.status === 200) {
-        setLocation(res.data);
-      }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const onHandleDetailRequestTime = (item: RequestTimes<User>) => {
@@ -301,14 +271,6 @@ const TableRequestTime = (props: Props) => {
               "DD/MM/YYYY"
             )} - ${userDetail?.user?.full_name}`}</span>
           </div>
-
-          <GoogleMaps
-            lat={location ? location?.lat : ""}
-            lng={location ? location?.lon : ""}
-            style={
-              "w-full h-[600px] sm:h-[600px] md:h-[400px] xl:h-[500px]  2xl:h-[600px] rounded-lg shadow-md z-0 relative mb-4 sm:mb-5"
-            }
-          />
 
           <div className="flex flex-col border rounded-md shadow-md mx-full">
             <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
