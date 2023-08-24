@@ -42,7 +42,18 @@ export interface AttendancesUser<T> {
   created_at: string;
   status: number;
   request_time_status: number;
+  request_time: any;
 }
+
+// interface RequestTime {
+//   attendance_id: number;
+//   id: number;
+//   manager_id: number;
+//   note: string;
+//   request_type: number;
+//   status: number;
+//   user_id: number;
+// }
 
 const CHECKIN_CHECKOUT = 1;
 const EIGHT_HOUR_TO_MINUTES = 8 * 60 * 60;
@@ -131,7 +142,7 @@ const TableAttendances = (props: Props) => {
     item: AttendancesUser<User>
   ): RequestTimeStatus | null => {
     const requestTime = REQUEST_TIME_STATUS.find(
-      (rqTime) => rqTime.value === item.request_time_status
+      (rqTime) => rqTime.value === item.request_time?.status
     );
     if (!requestTime && timeKeepingError(item)) {
       return { value: 0, text: "Cần giải trình", bgColor: "bg-[#dc354580]" };
