@@ -44,8 +44,9 @@ export default function FormUpdateProfile({ handleForm }: PropsSubmit) {
         .required(),
       code: yup
         .number()
-        .min(2, "Code phải lớn hơn 4 kí tự")
-        .integer("Code phải là số nguyên")
+        .typeError("ID nhân viên Không được để trống")
+        .min(2, "ID nhân viên phải lớn hơn 2 kí tự")
+        .integer("ID nhân viên phải là số nguyên")
         .required(),
       department_id: yup.number().integer().required(),
       center: yup.string().required(),
