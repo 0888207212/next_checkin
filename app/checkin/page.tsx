@@ -92,6 +92,7 @@ const Checkin = () => {
           <GoogleMaps
             lat={location ? location?.lat : ""}
             lng={location ? location?.lon : ""}
+            info={location ? location?.display_name : ""}
             style={
               "w-full h-[600px] sm:h-[600px] md:h-[400px] xl:h-[500px]  2xl:h-[600px] rounded-lg shadow-md z-0 relative"
             }
