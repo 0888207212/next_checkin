@@ -30,7 +30,13 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
 
   const schema = yup
     .object({
-      code: yup.number().min(4).positive().integer().required(),
+      code: yup
+        .number()
+        .typeError("ID nhân viên không được để trống")
+        .min(2, "ID nhân viên phải lớn hơn 2 kí tự")
+        .moreThan(9, "ID nhân viên phải lớn hơn 2 kí tự")
+        .integer("ID nhân viên phải là số nguyên")
+        .required(),
       department_id: yup.number().positive().integer().required(),
       center: yup.string().required(),
     })
@@ -43,6 +49,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
     formState: { errors },
   } = useForm<FormData>({
     resolver: yupResolver(schema),
+    mode: "all",
   });
 
   useEffect(() => {
@@ -85,7 +92,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
         className="flex flex-col pb-12 pt-8 px-5 sm:px-10 border rounded-lg bg-[#FAFAFA] w-[380px] sm:w-[460px] mx-auto max-w-screen-xl shadow-lg"
       >
         <div className="flex justify-start text-[#00C853] font-bold text-xl sm:text-xl mb-8">
-          COMPLETE PROFILE
+          Nhập thông tin cá nhân
         </div>
         <div className="flex flex-col mb-4 sm:mb-8">
           <label className="text-sm sm:text-md font-bold">ID nhân viên</label>
@@ -140,6 +147,7 @@ export default function FormCompleteProfile({ handleForm }: PropsSubmit) {
         </div>
         <input
           type="submit"
+          value="Gửi"
           className="p-2 border text-[white] bg-[#66a166] hover:bg-[green] cursor-pointer"
         />
       </form>
