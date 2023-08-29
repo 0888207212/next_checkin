@@ -45,6 +45,18 @@ export const auth = createSlice({
         },
       };
     },
+    updateUserCheckout: (state: any) => {
+      return {
+        ...state,
+        value: {
+          ...state.value,
+          user: {
+            ...state.value.user,
+            is_checkout: true,
+          },
+        },
+      };
+    },
     completeProfile: (state: any, action: PayloadAction<User>) => {
       return {
         ...state,
@@ -57,5 +69,5 @@ export const auth = createSlice({
   },
 });
 
-export const { logIn, logOut, updateUserCheckin, completeProfile } = auth.actions;
+export const { logIn, logOut, updateUserCheckin, updateUserCheckout, completeProfile } = auth.actions;
 export default auth.reducer;
