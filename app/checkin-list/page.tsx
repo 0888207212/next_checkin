@@ -222,12 +222,12 @@ const CheckinList = () => {
             onChange={onHandleChangeMonth}
           />
         </div>
-        <button
+        {/* <button
           className="bg-[#5D8DA8] hover:bg-[#4e7991] text-white font-bold py-2 px-4 rounded"
           onClick={handleExport}
         >
           Export
-        </button>
+        </button> */}
       </div>
       <TableAttendances
         attendances={attendances}
