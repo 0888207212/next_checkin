@@ -88,7 +88,6 @@ const Checkin = () => {
       setIsLoading(false);
     }
   };
-  console.log("check", user?.user?.is_checkin_today, user?.user?.is_checkout);
 
   return (
     <div className="relative 2xl:min-h-[735px] max-h-full overflow-auto pt-8 pb-20 sm:py-12  dark:bg-gray-800 flex items-center">
