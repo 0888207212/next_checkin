@@ -7,7 +7,10 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import apiCheckIn from "@/api/checkin";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { updateUserCheckin } from "@/redux/features/auth-slice";
+import {
+  updateUserCheckin,
+  updateUserCheckout,
+} from "@/redux/features/auth-slice";
 import { GetAllLocation } from "@/interfaces/location";
 import { showToastMessage } from "@/utils/helper/index";
 import apiLocation from "@/api/geo-location";
@@ -74,6 +77,7 @@ const Checkin = () => {
       if (res.status === 200) {
         statusCheck = res.data.status;
         if (statusCheck === 1) {
+          dispatch(updateUserCheckout());
           showToastMessage("Checkout Success", "success");
         } else showToastMessage("Checkin Success", "success");
         dispatch(updateUserCheckin());
@@ -84,6 +88,7 @@ const Checkin = () => {
       setIsLoading(false);
     }
   };
+  console.log("check", user?.user?.is_checkin_today, user?.user?.is_checkout);
 
   return (
     <div className="relative 2xl:min-h-[735px] max-h-full overflow-auto pt-8 pb-20 sm:py-12  dark:bg-gray-800 flex items-center">
@@ -154,14 +159,29 @@ const Checkin = () => {
               <button
                 style={!location ? { display: "none" } : {}}
                 className={`linear flex flex-row items-center rounded-xl px-5 py-3 sm:px-8 sm:py-4 text-white transition duration-200 dark:text-white dark:hover:bg-green-300 dark:active:bg-green-200 font-bold text-sm sm:text-md" ${
-                  user.user?.is_checkin_today
+                  user?.user?.is_checkin_today && !user?.user?.is_checkout
                     ? "bg-[#FF5722] hover:bg-[#D84315] active:bg-[#FF3D00]"
-                    : "bg-green-500  hover:bg-green-600 active:bg-green-700 dark:bg-green-400"
+                    : !user?.user?.is_checkin_today && !user?.user?.is_checkout
+                    ? "bg-green-500  hover:bg-green-600 active:bg-green-700 dark:bg-green-400"
+                    : user?.user?.is_checkin_today && user?.user?.is_checkout
+                    ? "bg-green-500"
+                    : ""
                 }`}
+                disabled={
+                  user?.user?.is_checkin_today && user?.user?.is_checkout
+                    ? true
+                    : false
+                }
                 data-ripple-light
                 onClick={() => handleCheckIn()}
               >
-                {user.user?.is_checkin_today ? "Check out" : "Check in"}
+                {user?.user?.is_checkin_today && !user?.user?.is_checkout
+                  ? "Check out"
+                  : !user?.user?.is_checkin_today && !user?.user?.is_checkout
+                  ? "Check in"
+                  : user?.user?.is_checkin_today && user?.user?.is_checkout
+                  ? "Bạn đã checkout hôm nay"
+                  : ""}
               </button>
 
               <button

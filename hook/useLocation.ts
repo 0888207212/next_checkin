@@ -17,6 +17,12 @@ export const useLocation = () => {
     showToastMessage('Bạn phải bật location để có thể checkin', 'info')
   }
 
+  const options = {
+    enableHighAccuracy: true,
+    timeout: 5000,
+    maximumAge: 0,
+  };
+
   useEffect(() => {
     if (!('geolocation' in navigator)) {
       onError({
@@ -24,7 +30,7 @@ export const useLocation = () => {
         message: 'GeoLocation not supported'
       })
     }
-    navigator.geolocation.getCurrentPosition(onSuccess, onError)
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, options)
   }, [lat, lng])
 
   return { lat, lng }
