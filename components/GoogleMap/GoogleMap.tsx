@@ -74,7 +74,7 @@ function GoogleMaps({
           }}
           center={{ lat: parseFloat(lat), lng: parseFloat(lng) }}
           zoom={18}
-          options={{ gestureHandling: "greedy" }}
+          options={{ gestureHandling: "greedy", fullscreenControl: true }}
         >
           <Marker
             position={{ lat: parseFloat(lat), lng: parseFloat(lng) }}

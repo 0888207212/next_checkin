@@ -28,6 +28,7 @@ const ModalNote = ({
   }, [isShowModal, errorMes]);
 
   const handleExplanationContent = (e: any) => {
+    e.stopPropagation();
     setExplanationContent(e.target.value);
   };
 

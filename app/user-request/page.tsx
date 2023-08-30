@@ -2,21 +2,12 @@
 
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import dayjs from "dayjs";
-import { Select } from "antd";
 import apiAttendences from "@/api/attendances";
 import TableRequestTimes from "@/components/table/RequestTime";
 import { SortDate } from "../checkin-list/page";
 import OutsideClickHandler from "react-outside-click-handler";
-import apiAuth from "@/api/auth";
-import { User } from "@/interfaces/user";
-const { Option } = Select;
-
-interface SelectedOptionUser {
-  value: number;
-  label: string;
-}
+import { useAppSelector } from "@/redux/store";
 
 const SELECTED_ALL = -1;
 
@@ -32,8 +23,6 @@ const RequestTime = () => {
   const [isShowSearchFilter, setIsShowSearchFilter] = useState(false);
   const [showPopupFilter, setShowFilter] = useState(false);
   const [showPopupStatus, setShowFilterStatus] = useState(false);
-  const [listUsers, setListUsers] = useState<User[]>([]);
-  const [userSelected, setUserSelected] = useState<number[]>([]);
   const [confirmExplanation, setConfirmExplanation] = useState(0);
   const [listFilterRequestTimes, setListFilterAttendances] = useState([
     {
@@ -77,19 +66,13 @@ const RequestTime = () => {
     },
   ]);
 
-  useEffect(() => {
-    (async () => {
-      const response = await apiAuth.listUser();
-      if (response.status === 200) {
-        const listUsers = response.data.users || [];
-        setListUsers(listUsers);
-      }
-    })();
-  }, []);
+  const user = useAppSelector((state) => state.authReducer.value);
 
   useEffect(() => {
     (async () => {
-      await getListRequestTimesForAdmin();
+      if (user?.user?.id) {
+        await getListRequestTimesForAdmin();
+      }
     })();
   }, [
     currentPage,
@@ -97,8 +80,8 @@ const RequestTime = () => {
     filterByMonth,
     listFilterRequestTimes,
     listFilterRequestStatus,
-    userSelected,
     confirmExplanation,
+    user,
   ]);
 
   const getListFilterRequestTimes = useMemo(() => {
@@ -117,27 +100,14 @@ const RequestTime = () => {
     return result;
   }, [listFilterRequestStatus]);
 
-  const listUsersOption: SelectedOptionUser[] = useMemo(() => {
-    if (!listUsers.length) return [];
-    return listUsers.map((item) => {
-      return {
-        value: item.id,
-        label: item.full_name,
-      };
-    });
-  }, [listUsers]);
-
   const getListRequestTimesForAdmin = async () => {
     try {
       const params: any = {
+        user_ids: user?.user?.id,
         month: filterByMonth,
         order_by_date: sortDate,
         page: currentPage,
       };
-      if (userSelected.length > 0) {
-        const userIds = userSelected.filter((item) => item !== SELECTED_ALL);
-        params.user_ids = userIds.toString();
-      }
       if (getListFilterRequestTimes.length > 0) {
         params.request_type = getListFilterRequestTimes.toString();
       }
@@ -203,49 +173,6 @@ const RequestTime = () => {
     <div className="w-[90%] mx-auto">
       {!isShowSearchFilter && (
         <div className="sm:flex sm:gap-10 sm:items-center my-4 lg:h-10">
-          <Select
-            mode="multiple"
-            style={{ width: "100%", height: "100%" }}
-            className="filter-attendances"
-            maxTagCount="responsive"
-            placeholder="Chọn nhân viên..."
-            value={userSelected}
-            onChange={(newValue: number[]) => {
-              if (newValue.length === listUsersOption.length) {
-                newValue.push(SELECTED_ALL);
-                setUserSelected(newValue);
-                return;
-              }
-              setUserSelected(newValue);
-            }}
-            onSelect={(value: any) => {
-              if (value === SELECTED_ALL) {
-                const idsUser = listUsersOption.map((item) => item.value);
-                idsUser.push(value);
-                setUserSelected(idsUser);
-              }
-            }}
-            onDeselect={(value: number) => {
-              if (value === SELECTED_ALL) {
-                setUserSelected([]);
-              } else if (
-                value !== SELECTED_ALL &&
-                userSelected.includes(SELECTED_ALL)
-              ) {
-                const result = userSelected.filter(
-                  (item) => item !== value && item !== SELECTED_ALL
-                );
-                setUserSelected(result);
-              }
-            }}
-          >
-            <Option value={SELECTED_ALL}>Chọn tất cả</Option>
-            {listUsersOption.map((option: any) => (
-              <Option key={option.value} value={option.value}>
-                {option.label}
-              </Option>
-            ))}
-          </Select>
           <div className="flex items-center justify-between flex-1 mt-4 sm:gap-5 sm:mt-0">
             <div className="flex items-center gap-2 sm:gap-10 justify-between">
               <input
@@ -351,7 +278,7 @@ const RequestTime = () => {
       <TableRequestTimes
         isShowSearchFilter={isShowSearchFilter}
         changIsShowSearchFilter={handleChangeShowFilter}
-        isShowBtnDetail={true}
+        isShowBtnDetail={false}
         requestTimes={requestTimes}
         isLoading={isLoading}
         totalPage={totalPage}
