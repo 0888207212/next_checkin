@@ -16,6 +16,7 @@ interface Props {
   requestTimes: RequestTimes<User>[];
   isLoading?: boolean;
   isShowSearchFilter?: boolean;
+  isShowBtnDetail?: boolean;
   totalPage: number;
   currentPage?: number;
   sortDate?: SortDate;
@@ -67,6 +68,7 @@ const TableRequestTime = (props: Props) => {
     isLoading,
     totalPage,
     sortDate,
+    isShowBtnDetail,
     handleSortDate,
     changeCurrentPage,
     handleExplanation,
@@ -329,26 +331,28 @@ const TableRequestTime = (props: Props) => {
                     </tbody>
                   </table>
                 </div>
-                <div
-                  className={`flex-row justify-center sm:justify-end gap-4 mt-4 ${
-                    userDetail.status === 1 ? "flex" : "hidden"
-                  }`}
-                >
-                  <button
-                    className="px-5 py-3 sm:px-8 sm:py-4  linear flex flex-row items-center rounded-xl bg-green-500 text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white font-bold text-sm sm:text-md"
-                    data-ripple-light
-                    onClick={() => handleAccept(userDetail.id)}
+                {isShowBtnDetail && (
+                  <div
+                    className={`flex-row justify-center sm:justify-end gap-4 mt-4 ${
+                      userDetail.status === 1 ? "flex" : "hidden"
+                    }`}
                   >
-                    Chấp nhận
-                  </button>
-                  <button
-                    className="px-5 py-3 sm:px-8 sm:py-4 mr-4 linear flex flex-row items-center rounded-xl bg-[#F44336] text-white transition duration-200 hover:bg-[#C62828] active:bg-[#E53935] dark:text-white font-bold text-sm sm:text-md"
-                    data-ripple-light
-                    onClick={() => handleReject(userDetail.id)}
-                  >
-                    Từ chối
-                  </button>
-                </div>
+                    <button
+                      className="px-5 py-3 sm:px-8 sm:py-4  linear flex flex-row items-center rounded-xl bg-green-500 text-white transition duration-200 hover:bg-green-600 active:bg-green-700 dark:bg-green-400 dark:text-white font-bold text-sm sm:text-md"
+                      data-ripple-light
+                      onClick={() => handleAccept(userDetail.id)}
+                    >
+                      Chấp nhận
+                    </button>
+                    <button
+                      className="px-5 py-3 sm:px-8 sm:py-4 mr-4 linear flex flex-row items-center rounded-xl bg-[#F44336] text-white transition duration-200 hover:bg-[#C62828] active:bg-[#E53935] dark:text-white font-bold text-sm sm:text-md"
+                      data-ripple-light
+                      onClick={() => handleReject(userDetail.id)}
+                    >
+                      Từ chối
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

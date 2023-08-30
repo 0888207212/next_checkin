@@ -28,6 +28,11 @@ const Navigation = () => {
       role: "User",
     },
     {
+      label: "Danh sách giải trình",
+      url: "/user-request",
+      role: "User",
+    },
+    {
       label: "Quản lí chấm công",
       url: "/checkin-management",
       role: "Admin",

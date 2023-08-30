@@ -53,6 +53,7 @@ const ModalExplanation = ({
   };
 
   const handleExplanationContent = (e: any) => {
+    e.stopPropagation();
     setExplanationContent(e.target.value);
   };
 
