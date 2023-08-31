@@ -5,7 +5,6 @@ import { AttendancesUser } from "@/components/table/Attendances";
 import Loading from "../loading";
 import { User } from "@/interfaces/user";
 import { showToastMessage } from "@/utils/helper";
-import Head from "next/head";
 
 interface Props {
   isShowModal: boolean;
@@ -64,12 +63,6 @@ const ModalNote = ({
 
   return (
     <>
-      <Head>
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=1"
-        ></meta>
-      </Head>
       <Modal
         isShowModal={isShowModal}
         handleCloseModal={handleCloseModal}
