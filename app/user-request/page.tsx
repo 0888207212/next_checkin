@@ -103,7 +103,7 @@ const RequestTime = () => {
   const getListRequestTimesForAdmin = async () => {
     try {
       const params: any = {
-        user_ids: user?.user?.id,
+        type: 'user',
         month: filterByMonth,
         order_by_date: sortDate,
         page: currentPage,

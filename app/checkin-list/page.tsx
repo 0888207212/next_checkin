@@ -37,6 +37,12 @@ const CheckinList = () => {
       key: "check_in_null",
       isCheck: false,
     },
+    {
+      text: "Chưa giải trình",
+      value: 5,
+      key: "not_explain",
+      isCheck: false,
+    },
     // {
     //   text: "làm dưới 8h",
     //   value: 3,
