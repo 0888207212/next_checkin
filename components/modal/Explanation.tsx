@@ -53,7 +53,6 @@ const ModalExplanation = ({
   };
 
   const handleExplanationContent = (e: any) => {
-    e.stopPropagation();
     setExplanationContent(e.target.value);
   };
 
@@ -125,7 +124,7 @@ const ModalExplanation = ({
           <textarea
             id="message"
             rows={4}
-            className="flex-1 resize-none p-2.5 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            className="flex-1 resize-none p-2.5 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Nội dung giải trình"
             value={explanationContent}
             onChange={handleExplanationContent}
