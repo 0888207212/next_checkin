@@ -33,7 +33,6 @@ export interface RequestTimes<T> {
   request_type: number;
   status: number;
   note: string;
-  manager_id: number;
   created_at: string;
   user: T;
 }
